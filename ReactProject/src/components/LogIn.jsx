@@ -1,25 +1,35 @@
-import React from "react";
-import { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 
 function LogIn(){
-// const User = {name, password};
-let User={Name, password};
- const CheckUser = (event)=>{
-    console.log("2");
-    event.preventDefault();
-    // const [username, password]=event.target;
-    // debugger;
-     console.log(username+"1"+password+"2");
 
+const CheckUser = (event)=>{
+    event.preventDefault();
+    // const [name,setname]=useState(null);
+    // useEffect(()=>{alert(lgsfg)});
+    // setname(username.value);
+    const [username, userpassword] = event.target;
+    let name = username.value;
+    let password = userpassword.value;
+    console.log(name+password) 
+    // if(){
+        // useEffect(()=>{
+        //     fetch(`http://localhost:3000/users?name=${name}`)
+        //     .then(alert(name));
+        // })
+
+    // }
+    // else(לא נמצא){
+
+    // }
  }
 
 return(
 <>
 <h1>Log In</h1>
-<form>
+<form onSubmit={CheckUser}>
 <input required type="text" placeholder="username" id="name" name=""/>
 <input required type="text"  placeholder="password" id="pass" name=""/>
-<button onClick={CheckUser(pass)}>Log In</button>
+<button type="submit">Log In</button>
 </form>
 </>
 )
