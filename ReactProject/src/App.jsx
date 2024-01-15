@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import {BrowserRouter as Router} from 'react-router-dom';
 import './App.css'
 import LogIn from './components/LogIn';
+import Home from './components/Home';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +13,7 @@ function App() {
     <>
     <Router>
       <LogIn></LogIn>
+      <Home></Home>
     </Router>
     </>
   )
