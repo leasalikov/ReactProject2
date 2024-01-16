@@ -1,15 +1,36 @@
 import React from "react";
 // import Home from "./Home";
 
-const Info=(prop)=>{
+const Info=()=>{
 
-    const {user} = prop;
-    console.log(user[0].name)
+    const user = JSON.parse(localStorage.getItem('user'));
+    // console.log(user[0].name)
     // const ShowInfo=()=>{
         
     // }
+
+
+
+    //אולי צריך לעשות map
 return(
-<p>{`name: ${user[0].name}`}</p>
+<p> id: {user.id}   <br />
+    name: {user.name}<br />
+    email: {user.email}<br />
+    address: <br />
+    street: {user.address.street}<br />
+    suite: {user.address.suite}<br />
+    city: {user.address.city}<br />
+    ipcode: {user.zipcode}<br />
+    geo: <br />
+    lat: {user.address.geo.lat}<br />
+    lng: {user.address.geo.lng} 
+    phone: {user.phone}<br />
+    website: {user.website}<br />
+    email: {user.email}<br />
+    company<br/>
+    Name: {user.company.Name}<br />
+    catchPhrase: {user.company.catchPhrase}<br />
+    bs: {user.company.bs}</p>
 )
 }
 export default Info;

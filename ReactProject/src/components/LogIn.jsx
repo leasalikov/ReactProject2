@@ -32,8 +32,8 @@ function LogIn() {
                 <input required type="text" placeholder="username" id="name" name="" onChange={(e) => setUser({ username: e.target.value, password: '' })} />
                 <input required type="password" placeholder="password" id="password" name="" onChange={(e) => setUser({ username: user.username, password: e.target.value })} />
                 <button type="submit">Log In</button>
-                <button onClick={()=>{ navigate('/Register')}}>Sing In</button>
             </form>
+            <button onClick={()=>{navigate('/Register')}}>Sing In</button>
         </>
     );
 }

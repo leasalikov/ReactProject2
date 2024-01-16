@@ -1,26 +1,33 @@
 
 import {Navigate, useNavigate} from 'react-router-dom';
-import React ,{useState}from 'react';
+import React ,{ useEffect,useState}from 'react';
 import Info from './Info';
+import Todos from './Todos';
+import Posts from './Posts';
+import Albums from './Albums';
 
 
 const Home = () => {
-    const [info,setInfo]=useState(false);
+   const [info,setInfo]=useState(false);
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     if(!user){
-        return <Navigate to="/LogIn" />
+        navigate('/LogIn')
     }
-
+    const logOut=()=>{
+        localStorage.removeItem("user");
+        navigate('/LogIn');
+    }
+   
     return(
         <>
         <button onClick={()=>{setInfo(true)}}>Info</button>
-        <button>Todos</button>
-        <button>Posts</button>
-        <button>Albums</button>
-        <button>Logout</button>
-        {/* <h1>{user[0].name}</h1>   */}
-        {info&&<Info user={user}/>}
+        <button onClick={()=>{navigate('/Home/todos')}}>Todos</button>
+        <button onClick={()=>{navigate('/Home/Posts')}}>Posts</button>
+        <button onClick={()=>{navigate('/Home/Albums')}}>Albums</button>
+        <button onClick={logOut}>Logout</button>
+        <h1>{user.username}</h1>  
+        {info&&<Info />}
         </>
     )
 

@@ -29,29 +29,30 @@ const Register = () => {
         }
     });
 
-    const CheckPeople = async (event) => {
-        event.preventDefault();
-        CheckPassword();
+    const CheckPeople = async () => {
         try {
             const response = await fetch(`http://localhost:3000/users?username=${user.username}`);
             const data = await response.json();
             if (!(data.length === 0))
                 alert("User already exist!");
-
+            else
+            {
+                setShowDetails(true);
+                setFormData({
+                    ...formData,
+                    username: user.username,
+                    website: user.password
+                });}
         } catch (error) {
             console.error('ERROR:', error);
         }
     };
-    const CheckPassword = ()=>{
-        if(user.password===user.verifyPassword){
-            setShowDetails(true);
-            setFormData({
-                ...formData,
-                username: user.username,
-                website: user.password
-            });}
+    const CheckPassword = (event)=>{
+        event.preventDefault();
+        if(user.password===user.verifyPassword)
+            CheckPeople();
         else{
-            alert("The password is incorrect!")
+        alert("The password is incorrect!")
         }
     }
 
@@ -103,18 +104,18 @@ const Register = () => {
             },
           })
             .then((response) => response.json())
-            .then((navigate('/home')));
+            .then((navigate('/Home')));
     };
 
     return (
         <>
             <h1>Sing Up</h1>
-            <form onSubmit={CheckPeople}>
+        { !showDetails&&<form onSubmit={CheckPassword}>
                 <input required type="text" placeholder="username" id="name" name="" onChange={(e) => setUser({ username: e.target.value, password: '' })} />
                 <input required type="password" placeholder="password" id="password" name=""  onChange={(e) =>setUser({ username: user.username, password: e.target.value })} />
                 <input required type="password" placeholder="verify-password" id="verify-password" name="" onChange={(e) =>setUser({ username: user.username, password: user.password, verifyPassword: e.target.value })}/>
             <button type="submit">Ok</button>
-            </form>
+            </form>}
             {showDetails&&<form onSubmit={handleSubmit} >
             <label>
                 id:

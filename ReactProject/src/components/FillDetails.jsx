@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 const FillDetails = () => {
@@ -67,7 +67,6 @@ const FillDetails = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         localStorage.setItem("user", JSON.stringify(formData));
-        // כאן תוכל להשתמש בנתונים מהטופס שנשמרו בסטייט
         console.log('Details:', formData);
     };
 
