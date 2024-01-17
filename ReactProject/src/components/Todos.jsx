@@ -2,7 +2,7 @@ import React ,{ useEffect, useState}from 'react';
 import { useParams } from "react-router-dom";
 const Todos= ()=>{
     const user = JSON.parse(localStorage.getItem('user'));
-    const [data,setData]=useState([{}]);
+    const [data,setData]=useState([]);
     const [isChecked,setIsChecked]=useState(false);
 
     useEffect(() => {
@@ -10,52 +10,50 @@ const Todos= ()=>{
          fetch(`http://localhost:3000/todos?userId=1`)
         .then(respons=>respons.json())
         .then(json=>{setData(json)});
-
+        
     },[]);
+    const todos=localStorage.setItem('userTodos', JSON.stringify(data));
 
-    console.log(data[0]);
-    const handleChange=()=>{
-      item.completed=true;
+
+    const SortBySerial=(event)=>{
+      event.preventDefault();
+      console.log(event.value)
+      event.value;
+      const strAscending = [...todos].sort((a, b) =>
+      a.id > b.id ? 1 : -1,
+      );
+      console.log(strAscending)
     }
-  //   const CheckPeople = async () => {
-  //     try {
-  //         const response = await fetch(`http://localhost:3000/users?username=${user.username}`);
-  //         const data = await response.json();
-  //         if (!(data.length === 0))
-  //             alert("User already exist!");
-  //         else
-  //         {
-  //             setShowDetails(true);
-  //             setFormData({
-  //                 ...formData,
-  //                 username: user.username,
-  //                 website: user.password
-  //             });}
-  //     } catch (error) {
-  //         console.error('ERROR:', error);
-  //     }
-  // };
+
+
+    // console.log(data[0]);
+    // const handleChange=(event)=>{
+    //   setIsChecked(prev=>!prev);
+    //   event.completed=!isChecked;
+    //   onChange={handleChange} 
+    //   console.log(event.completed,isChecked);
+    // }
     return(
     <>
-      <p>Todos<br/>{data.userId}</p>
-      {/* <div>
-            {data.map((element, index) => {
-                      return <span key={index}>{element.userId}</span>
-                  })}
-      </div> */}
+      <h1>Todos</h1>
+      <select>
+      <option value="" disabled selected hidden onChange={SortBySerial} >Select Option</option>
+        <option value="Serial" onChange={SortBySerial}>Serial</option>
+        <option value="Complete">Complete</option>
+        <option value="Alphabetical">Alphabetical</option>
+        <option value="Random">Random</option>
+
+      </select>
       <div>
       <ul>
         {data.map(item=> (
-        <li key={item.id}><input type="checkbox" checked={ item.completed ? true : false } onChange={{handleChange}}/><label>Id: {item.id} Titel: {item.title}</label></li>
+        <li key={item.id} ><input type="checkbox" checked = {item.completed ? true : false } />Id: {item.id} Titel: {item.title}</li>
         )) }
+
+
       </ul>
       </div>
     </>
 );
 }
 export default Todos;
-
-
-///<ul>
-//{/* {data.map(item=> (<li key={item.id}>{item.name}</li>))} */}
-///</ul>
