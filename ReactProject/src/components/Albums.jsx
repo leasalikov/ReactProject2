@@ -1,5 +1,9 @@
 import React ,{useState}from 'react';
 const Albums=()=>{
-    return(<><p>Albums</p></>)
+    return(
+    <>
+    <h1>Albums</h1>
+    </>
+    )
     }
 export default Albums;

@@ -1,5 +1,11 @@
 import React ,{useState}from 'react';
+
+
 const Posts=()=>{
-    return(<><p>Posts</p></>)
+    return(
+    <>
+    <h1>Posts</h1>
+    </>
+    )
     }
 export default Posts;
