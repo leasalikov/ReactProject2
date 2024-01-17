@@ -11,11 +11,12 @@ function LogIn() {
         try {
             const response = await fetch(`http://localhost:3000/users?username=${user.username}&website=${user.password}`);
             const data = await response.json();
-
+            console.log(data)
             if (data.length === 0)
                 alert("User does not exist!");
             else {
-                localStorage.setItem('user', JSON.stringify(data));
+
+                localStorage.setItem('user', JSON.stringify(data[0]));
                 navigate('/Home');
             }
 

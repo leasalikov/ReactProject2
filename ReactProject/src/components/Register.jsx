@@ -94,7 +94,7 @@ const Register = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        localStorage.setItem("user", JSON.stringify(formData));
+        localStorage.setItem('user', JSON.stringify(formData));
         console.log('Details:', formData);
         fetch('http://localhost:3000/users', {
             method: 'POST',
