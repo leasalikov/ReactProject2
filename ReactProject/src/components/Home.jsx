@@ -22,7 +22,7 @@ const Home = () => {
     return(
         <>
         <button onClick={()=>{setInfo(true)}}>Info</button>
-        <button onClick={()=>{navigate('/Home/todos')}}>Todos</button>
+        <button onClick={()=>{navigate('/Home/Todos')}}>Todos</button>
         <button onClick={()=>{navigate('/Home/Posts')}}>Posts</button>
         <button onClick={()=>{navigate('/Home/Albums')}}>Albums</button>
         <button onClick={logOut}>Logout</button>
