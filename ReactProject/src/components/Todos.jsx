@@ -102,7 +102,6 @@ const Todos = () => {
   // }
   }
 
-
   console.log(data);
 
   const handleChange = (item) => {
@@ -123,7 +122,7 @@ const Todos = () => {
       <br/>
       <button onClick={()=>{setShowTodoDetails(true)}}>Add Todo</button>
       {showTodoDetails&&<form onSubmit={AddTodo}>
-        <input required placeholder='Write the title of todo' id='' name='' onChange={(e) => setTodo({ userId: , id: '' , title: e.target.value ,completed:false})}></input>
+        <input required placeholder='Write the title of todo' id='' name='' onChange={(e) => setTodo({ userId:'' , id: '' , title: e.target.value ,completed:false})}></input>
         <button type="submit">Ok</button>
         </form>}
       <div>
