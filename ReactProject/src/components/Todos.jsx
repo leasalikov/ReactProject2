@@ -5,7 +5,7 @@ const Todos = () => {
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [showTodoDetails, setShowTodoDetails] = useState(false);
-  
+  const [todo, setTodo] = useState({ userId: '', id: '' , title:'' ,completed:false});
 
   useEffect(() => {
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
@@ -83,9 +83,9 @@ const Todos = () => {
   }
 
   const AddTodo = async() => {
-
+// let id=?????
   //   try {
-  //     const response = await fetch(`http://localhost:3000/users?username=${user.username}`);
+  //     const response = await fetch(`http://localhost:3000/todos?title=${user.username}`);
   //     const data = await response.json();
   //     if (!(data.length === 0))
   //         alert("User already exist!");
@@ -123,7 +123,7 @@ const Todos = () => {
       <br/>
       <button onClick={()=>{setShowTodoDetails(true)}}>Add Todo</button>
       {showTodoDetails&&<form onSubmit={AddTodo}>
-        <input placeholder='Write the title of todo'></input>
+        <input required placeholder='Write the title of todo' id='' name='' onChange={(e) => setTodo({ userId: , id: '' , title: e.target.value ,completed:false})}></input>
         <button type="submit">Ok</button>
         </form>}
       <div>
