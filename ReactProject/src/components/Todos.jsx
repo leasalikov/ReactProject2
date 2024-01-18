@@ -4,15 +4,17 @@ const Todos = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [showTodoDetails, setShowTodoDetails] = useState(false);
+  
 
   useEffect(() => {
-    //  fetch(`http://localhost:3000/todos?userid=${user.id}`)
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
-      .then(respons => respons.json())
-      .then(json => { setData(json) });
-
+      .then(response => response.json())
+      .then(json => {
+        setData(json);
+        localStorage.setItem('userTodos', JSON.stringify(json));
+      });
   }, []);
-  localStorage.setItem('userTodos', JSON.stringify(data));
 
 
   const SortBySerial = () => {
@@ -61,46 +63,83 @@ const Todos = () => {
     }
   }
 
-  const DeleteTodo = (item) => {
-    console.log("de")
-      fetch(`http://localhost:3000/todos?id=${item.id}`,{
+  const DeleteTodo = async (item) => {
+    alert('Do you want to delete this todo?')
+    try {
+      await fetch(`http://localhost:3000/todos/${item.id}`, {
         method: 'DELETE',
-    });
-    // axios.delete(`http://localhost:3000/todos?id=${item.id}`).then(() => {
-    //   // setData(...data.filter((item) => item.id !== id))
-    //   let data = data.filter((el) => el.id !== id);
-    //   console.log(data);
-    //   setData(data);
-  }
-  
-    // console.log(data[0]);
-    const handleChange = (event) => {
-      setIsChecked(prev => !prev);
-      event.completed = !isChecked;
-
-      console.log(event.completed, isChecked);
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setData((prevData) => prevData.filter((todo) => todo.id !== item.id));
+    } catch (error) {
+      console.error('שגיאה במחיקת הפריט', error);
     }
-    return (
-      <>
-        <h1>Todos</h1>
-        <select defaultValue onChange={SortByOptions}>
-          <option value="">Select Option</option>
-          <option value="Serial">Serial</option>
-          <option value="Complete">Complete</option>
-          <option value="Alphabetical">Alphabetical</option>
-          <option value="Random">Random</option>
-        </select>
-        <div>
-          <ul>
-            {data.map(item => (
-              <li key={item.id} ><input type="checkbox" checked={item.completed ? true : false} onChange={handleChange} />
-                Id: {item.id} Titel: {item.title} <button onClick={DeleteTodo(item)}>Delete</button></li>
-            ))}
+  };
 
+  const UpdateTodo = async(item) => {
 
-          </ul>
-        </div>
-      </>
-    );
   }
-  export default Todos;
+
+  const AddTodo = async() => {
+
+  //   try {
+  //     const response = await fetch(`http://localhost:3000/users?username=${user.username}`);
+  //     const data = await response.json();
+  //     if (!(data.length === 0))
+  //         alert("User already exist!");
+  //     else
+  //     {
+  //         setShowDetails(true);
+  //         setFormData({
+  //             ...formData,
+  //             username: user.username,
+  //             website: user.password
+  //         });}
+  // } catch (error) {
+  //     console.error('ERROR:', error);
+  // }
+  }
+
+
+  console.log(data);
+
+  const handleChange = (item) => {
+    item.completed = !item.completed;
+    setIsChecked(prev => !prev);
+    console.log(item.completed);
+  }
+  return (
+    <>
+      <h1>Todos</h1>
+      <select defaultValue onChange={SortByOptions}>
+        <option value="">Select Option</option>
+        <option value="Serial">Serial</option>
+        <option value="Complete">Complete</option>
+        <option value="Alphabetical">Alphabetical</option>
+        <option value="Random">Random</option>
+      </select>
+      <br/>
+      <button onClick={()=>{setShowTodoDetails(true)}}>Add Todo</button>
+      {showTodoDetails&&<form onSubmit={AddTodo}>
+        <input placeholder='Write the title of todo'></input>
+        <button type="submit">Ok</button>
+        </form>}
+      <div>
+        <ul>
+          {data.map(item => (
+            <li key={item.id}>
+              <input type="checkbox" checked={item.completed} onChange={() => handleChange(item)} />
+              Id: {item.id} Titel: {item.title}
+              <button onClick={() => DeleteTodo(item)}>Delete</button>
+              <button onClick={() => UpdateTodo(item)}>Update</button>
+            </li>
+          ))}
+
+        </ul>
+      </div>
+    </>
+  );
+}
+export default Todos;
