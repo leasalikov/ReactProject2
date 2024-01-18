@@ -62,15 +62,17 @@ const Todos = () => {
   }
 
   const DeleteTodo = (item) => {
-    fetch(`http://localhost:3000/todos?id=${item.id}`,{method: 'DELETE',
-  });
+    console.log("de")
+      fetch(`http://localhost:3000/todos?id=${item.id}`,{
+        method: 'DELETE',
+    });
     // axios.delete(`http://localhost:3000/todos?id=${item.id}`).then(() => {
     //   // setData(...data.filter((item) => item.id !== id))
     //   let data = data.filter((el) => el.id !== id);
     //   console.log(data);
     //   setData(data);
   }
-
+  
     // console.log(data[0]);
     const handleChange = (event) => {
       setIsChecked(prev => !prev);
