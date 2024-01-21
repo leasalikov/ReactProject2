@@ -7,9 +7,10 @@ const Posts = () => {
     const [showPostInfo, setShowPostInfo] = useState(false);
     const [viewpostUpdate, setViewpostUpdate] = useState(false);
     const [nextId, setNextId] = useState();
-    const [post, setPost] = useState();
-    const [selectedPost, setSelectedPost] = useState(null);
+    // const [post, setPost] = useState();
 
+    const [selectedPost, setSelectedPost] = useState(null);
+    
     const [showPostsComments, setShowPostsComments] = useState(false);
     const [postsComments, setPostsComments] = useState([]);
 

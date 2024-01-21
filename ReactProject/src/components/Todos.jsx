@@ -1,4 +1,4 @@
-import React, { useRef,useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 
 const Todos = () => {
@@ -11,15 +11,15 @@ const Todos = () => {
   // const [todo, setTodo] = useState({ userId: '', id: '', title: '', completed: false });
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
-  const itemId=useRef(0);
+  const itemId = useRef(0);
 
   useEffect(() => {
     //users todo
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
       .then(response => response.json())
       .then(json => {
-        setUserTodos(json.map(j=>{return{...j,display:false}}));
-      //   localStorage.setItem('userTodos', JSON.stringify(json));
+        setUserTodos(json.map(j => { return { ...j, display: false } }));
+        //   localStorage.setItem('userTodos', JSON.stringify(json));
       });
 
     //fech next id
@@ -82,17 +82,19 @@ const Todos = () => {
   }
 
   const DeleteTodo = async (item) => {
-    alert('Do you want to delete this todo?')
-    try {
-      await fetch(`http://localhost:3000/todos/${item.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      setUserTodos((prevUserTodos) => prevUserTodos.filter((todo) => todo.id !== item.id));
-    } catch (error) {
-      console.error('שגיאה במחיקת הפריט', error);
+    const userConfirmed = window.confirm('Do you want to delete this todo?');
+    if (userConfirmed) {
+      try {
+        await fetch(`http://localhost:3000/todos/${item.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setUserTodos((prevUserTodos) => prevUserTodos.filter((todo) => todo.id !== item.id));
+      } catch (error) {
+        console.error('שגיאה במחיקת הפריט', error);
+      }
     }
   };
 
@@ -130,7 +132,7 @@ const Todos = () => {
       await fetch(`http://localhost:3000/todos/${itemId.current}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          title: title.title, 
+          title: title.title,
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -138,12 +140,12 @@ const Todos = () => {
       });
       setUserTodos(
         UserTodos.map((UserTodos) =>
-        UserTodos.id ===itemId.current
-                ? {
-                      ...UserTodos,
-                      title:title.title
-                  }
-                : { ...UserTodos }
+          UserTodos.id === itemId.current
+            ? {
+              ...UserTodos,
+              title: title.title
+            }
+            : { ...UserTodos }
         ));
     } catch (error) {
       console.error('שגיאה בהוספת הפריט', error);
@@ -184,13 +186,13 @@ const Todos = () => {
     item.completed = !item.completed;
     setIsChecked(prev => !prev);
     fetch(`http://localhost:3000/todos/${item.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(item),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-    console.log(item.completed+" "+item.id+" "+item.userId+" "+item.title);
+      method: 'PUT',
+      body: JSON.stringify(item),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+    console.log(item.completed + " " + item.id + " " + item.userId + " " + item.title);
   }
   return (
     <>
@@ -209,9 +211,9 @@ const Todos = () => {
         <button type="submit">Ok</button>
       </form>}
       {viewItemUpdate && <form onSubmit={handleSubmit(UpdateTodo)}>
-                <input required placeholder='Write a new title of the todo' id='' name='title' {...register("title")}></input>
-                <button type="submit">Ok</button>
-              </form>}
+        <input required placeholder='Write a new title of the todo' id='' name='title' {...register("title")}></input>
+        <button type="submit">Ok</button>
+      </form>}
       <div>
         <ul>
           {UserTodos.map(item => (
@@ -219,7 +221,7 @@ const Todos = () => {
               <input type="checkbox" checked={item.completed} onChange={() => UpdateTodoStatus(item)} />
               Id: {item.id} Title: {item.title}
               <button onClick={() => DeleteTodo(item)}>Delete</button>
-              <button onClick={() => {{itemId.current=item.id};setViewItemUpdate(true)}}>Update</button>
+              <button onClick={() => { { itemId.current = item.id }; setViewItemUpdate(true) }}>Update</button>
             </li>
           ))}
 
