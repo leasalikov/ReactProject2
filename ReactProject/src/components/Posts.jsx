@@ -22,7 +22,7 @@ const Posts = () => {
             .then(response => response.json())
             .then(json => setUserPosts(json));
 
-        //   .then(json => {
+            //   .then(json => {
         // setUserTodos(json.map(j=>{return{...j,display:false}}));
         // localStorage.setItem('userPosts', JSON.stringify(json));
         fetch("http://localhost:3000/nextIDs/3")
@@ -56,17 +56,19 @@ const Posts = () => {
     };
 
     const DeletePost = async (post) => {
-        alert('Do you want to delete this post?')
-        try {
-            await fetch(`http://localhost:3000/posts/${post.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            setUserPosts((prevUserPosts) => prevUserPosts.filter((item) => item.id !== post.id));
-        } catch (error) {
-            console.error('שגיאה במחיקת הפוסט', error);
+        const userConfirmed = window.confirm('Do you want to delete this post?');
+        if (userConfirmed) {
+            try {
+                await fetch(`http://localhost:3000/posts/${post.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                setUserPosts((prevUserPosts) => prevUserPosts.filter((item) => item.id !== post.id));
+            } catch (error) {
+                console.error('שגיאה במחיקת הפוסט', error);
+            }
         }
     };
 
@@ -106,13 +108,13 @@ const Posts = () => {
         // setUserPosts((prevUserPosts) => prevUserPosts.filter((post) => post.id !== post.id));
     }
 
-    const PostsComments =async (id) => {
+    const PostsComments = async (id) => {
         console.log("gjb m,");
         setShowPostsComments(true);
         await fetch(`http://localhost:3000/comments?postId=${id}`)
-        // await fetch(`http://localhost:3000/comments/1`)
-        .then(response => response.json())
-        .then(json => setPostsComments(json));
+            // await fetch(`http://localhost:3000/comments/1`)
+            .then(response => response.json())
+            .then(json => setPostsComments(json));
     }
 
     return (
@@ -135,25 +137,23 @@ const Posts = () => {
                     <p>{selectedPost.id}</p>
                     <p>{selectedPost.title}</p>
                     <p>{selectedPost.body}</p>
-                    <button onClick={()=>{PostsComments(selectedPost.id)}}>Comments</button>
-                    {showPostsComments&&(postsComments.map(comment=>(
+                    <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
+                    {showPostsComments && (postsComments.map(comment => (
                         <li key={comment.id}>
-                            Id: {comment.id} name: {comment.name} Email: {comment.email}
+                            Id: {comment.id}<br />name: {comment.name}<br />Email: {comment.email}
                         </li>
                     )))}
                 </div>
             )}
-
             <ul>
                 {userPosts.map(post => (
                     <li key={post.id}>
                         Id: {post.id} Title: {post.title}
                         <button onClick={() => { DeletePost(post) }}>Delete</button>
-                        <button onClick={() => { { postId.current = post.id }; setViewpostUpdate(true) }}>Update</button>
+                        <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}>Update</button>
                         <button onClick={() => { ShowPost(post) }}>Info</button>
                     </li>
                 ))}
-
             </ul>
         </>
     );
