@@ -7,18 +7,22 @@ const Todos = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [showTodoDetails, setShowTodoDetails] = useState(false);
   const [viewItemUpdate, setViewItemUpdate] = useState(false);
-
+  const [showsearchBox, setShowsearchBox] = useState(false);
+  const [allUserTodos, setAllUserTodos] = useState([]);
   // const [todo, setTodo] = useState({ userId: '', id: '', title: '', completed: false });
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
   const itemId = useRef(0);
+  const searchValue = useRef(0);
 
   useEffect(() => {
     //users todo
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
       .then(response => response.json())
       .then(json => {
+        setAllUserTodos(json.map(j => { return { ...j, display: false } }));
         setUserTodos(json.map(j => { return { ...j, display: false } }));
+
         //   localStorage.setItem('userTodos', JSON.stringify(json));
       });
 
@@ -36,28 +40,28 @@ const Todos = () => {
 
 
   const SortBySerial = () => {
-    const strAscending = [...UserTodos].sort((a, b) =>
+    const strAscending = [...allUserTodos].sort((a, b) =>
       a.id - b.id,
     );
     setUserTodos(strAscending);
   }
 
   const SortByComplete = () => {
-    const strAscending = [...UserTodos].sort((a, b) =>
+    const strAscending = [...allUserTodos].sort((a, b) =>
       b.completed - a.completed,
     );
     setUserTodos(strAscending);
   }
 
   const SortByAlphabetical = () => {
-    const strAscending = [...UserTodos].sort((a, b) =>
+    const strAscending = [...allUserTodos].sort((a, b) =>
       b.title > a.title ? -1 : 1,
     );
     setUserTodos(strAscending);
   }
 
   const SortByRandom = () => {
-    const strAscending = [...UserTodos].sort((a, b) =>
+    const strAscending = [...allUserTodos].sort((a, b) =>
       Math.random() - 0.5
     );
     setUserTodos(strAscending);
@@ -91,7 +95,9 @@ const Todos = () => {
             'Content-Type': 'application/json',
           },
         });
+        setAllUserTodos((prevUserTodos) => prevUserTodos.filter((todo) => todo.id !== item.id));
         setUserTodos((prevUserTodos) => prevUserTodos.filter((todo) => todo.id !== item.id));
+
       } catch (error) {
         console.error('שגיאה במחיקת הפריט', error);
       }
@@ -138,15 +144,17 @@ const Todos = () => {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      setUserTodos(
-        UserTodos.map((UserTodos) =>
-          UserTodos.id === itemId.current
-            ? {
-              ...UserTodos,
-              title: title.title
-            }
-            : { ...UserTodos }
+      setAllUserTodos(
+        allUserTodos.map((todo) =>
+          todo.id === itemId.current
+            ? { ...todo, title: title.title }
+            : todo
         ));
+        setUserTodos(userTodos.map((todo) =>
+        todo.id === itemId.current
+          ? { ...todo, title: title.title }
+          : todo
+      ));
     } catch (error) {
       console.error('שגיאה בהוספת הפריט', error);
     }
@@ -165,8 +173,8 @@ const Todos = () => {
       if (!response.ok)
         throw 'Error' + response.status + ': ' + response.statusText;
     }).then(() => {
-      setUserTodos(prev => [...prev, newTask])
-      // setTodos(prev => [...prev, { ...newTask, i: userTodos.length, editable: false }])//???
+      setAllUserTodos(prev => [...prev, newTask])
+      setUserTodos(prev => [...prev, newTask]);
       setShowTodoDetails(false);
       setNextId(prev => prev + 1)
     }).catch((ex) => alert(ex));
@@ -182,7 +190,7 @@ const Todos = () => {
   // console.log(UserTodos);
 
   const UpdateTodoStatus = (item) => {
-    console.log(item.completed);
+    // console.log(item.completed);
     item.completed = !item.completed;
     setIsChecked(prev => !prev);
     fetch(`http://localhost:3000/todos/${item.id}`, {
@@ -194,6 +202,25 @@ const Todos = () => {
     });
     console.log(item.completed + " " + item.id + " " + item.userId + " " + item.title);
   }
+  
+  const Search = (data) => {
+    setShowsearchBox(false);
+
+    let val = searchValue.current;
+    if (val == 'All') {
+      setUserTodos(allUserTodos)
+    }
+    else {
+      let arr = allUserTodos;
+      const filteredByValue = arr.filter(obj => {
+        return obj[val] == data.valueToSearch;
+      });
+      console.log(filteredByValue);
+      setUserTodos(filteredByValue);
+    }
+  }
+
+
   return (
     <>
       <h1>Todos</h1>
@@ -204,6 +231,19 @@ const Todos = () => {
         <option value="Alphabetical">Alphabetical</option>
         <option value="Random">Random</option>
       </select>
+      {/* <br /> */}
+      <select defaultValue onChange={(e) => { (e.target.value!=='All')?setShowsearchBox(true):null; searchValue.current = e.target.value }} >
+        {/* onChange={SearchBy} */}
+        <option value="All">Search</option>
+        <option value="All">All</option>
+        <option value="id">Id</option>
+        <option value="title">Title</option>
+        <option value="completed">ExecutionMode 0/1</option>
+      </select>
+       <form onSubmit={handleSubmit(Search)}>
+        {showsearchBox && <input  placeholder='Write the value of search' id='' name='valueToSearch' {...register("valueToSearch")}></input>}
+        <button type="submit">search</button></form>
+
       <br />
       <button onClick={() => { setShowTodoDetails(true) }}>Add Todo</button>
       {showTodoDetails && <form onSubmit={AddTodo}>
