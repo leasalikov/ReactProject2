@@ -14,7 +14,6 @@ const Todos = () => {
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
   const itemId = useRef(0);
-
   useEffect(() => {
     //users todo
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
@@ -183,7 +182,7 @@ const Todos = () => {
           {UserTodos.map(item => (
             <li key={item.id}>
               <input type="checkbox" checked={item.completed} onChange={() => UpdateTodoStatus(item)} />
-              Id: {item.id} Title: {item.title}
+              <b>Id: </b>{item.id} <b>Title: </b>{item.title}
               <button onClick={() => DeleteTodo(item)}><IoTrashOutline /></button>
               <button onClick={() => { { itemId.current = item.id }; setViewItemUpdate(true) }}><LuClipboardEdit /></button>
             </li>

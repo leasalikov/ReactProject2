@@ -571,7 +571,8 @@
       "userId": "3",
       "id": "41",
       "title": "aliquid amet impedit consequatur aspernatur placeat eaque fugiat suscipit",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
@@ -583,25 +584,29 @@
       "userId": "3",
       "id": "43",
       "title": "tempore ut sint quis recusandae",
-      "completed": true
+      "completed": false,
+      "display": false
     },
     {
       "userId": "3",
       "id": "44",
       "title": "cum debitis quis accusamus doloremque ipsa natus sapiente omnis",
-      "completed": true
+      "completed": false,
+      "display": false
     },
     {
       "userId": "3",
       "id": "45",
       "title": "velit soluta adipisci molestias reiciendis harum",
-      "completed": false
+      "completed": false,
+      "display": false
     },
     {
       "userId": "3",
       "id": "46",
       "title": "vel voluptatem repellat nihil placeat corporis",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
@@ -620,13 +625,15 @@
       "userId": "3",
       "id": "49",
       "title": "ut necessitatibus aut maiores debitis officia blanditiis velit et",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "50",
       "title": "cupiditate necessitatibus ullam aut quis dolor voluptate",
-      "completed": true
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
@@ -638,37 +645,43 @@
       "userId": "3",
       "id": "52",
       "title": "nesciunt dolorum quis recusandae ad pariatur ratione",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "53",
       "title": "qui labore est occaecati recusandae aliquid quam",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "54",
       "title": "quis et est ut voluptate quam dolor",
-      "completed": true
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "55",
       "title": "voluptatum omnis minima qui occaecati provident nulla voluptatem ratione",
-      "completed": true
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "56",
       "title": "deleniti ea temporibus enim",
-      "completed": true
+      "completed": false,
+      "display": false
     },
     {
       "userId": "3",
       "id": "57",
       "title": "pariatur et magnam ea doloribus similique voluptatem rerum quia",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
@@ -680,13 +693,15 @@
       "userId": "3",
       "id": "59",
       "title": "perspiciatis velit id laborum placeat iusto et aliquam odio",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "3",
       "id": "60",
       "title": "et sequi qui architecto ut adipisci",
-      "completed": true
+      "completed": false,
+      "display": false
     },
     {
       "userId": "4",

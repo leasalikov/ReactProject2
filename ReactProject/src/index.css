@@ -32,6 +32,11 @@ body {
   min-height: 100vh;
 }
 
+ul {
+  text-align: left;
+  list-style-type: none;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
