@@ -266,6 +266,13 @@ const Posts = () => {
                 <input required placeholder='Write a new body of the post' id='' name='body' {...register("body")}></input>
                 <button type="submit">OK</button>
             </form>}
+            {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
+                <input required placeholder='name' id='' name='name' {...register("name")}></input>
+                <input required placeholder='email' id='' name='email' {...register("email")}></input>
+                <input required placeholder='body' id='' name='body' {...register("body")}></input>
+                <button type="submit">Ok</button>
+            </form>}
+
             {showPostInfo && selectedPost && (
                 <div>
                     <p>User Id: {selectedPost.userId}</p>
@@ -276,6 +283,12 @@ const Posts = () => {
                     {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
                         <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
                         <input required placeholder='Writea new body of the  comment' id='' name='body' {...register("body")}></input>
+                        <button type="submit">Ok</button>
+                    </form>}
+                    {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
+                        <input required placeholder='name' id='' name='name' {...register("name")}></input>
+                        <input required placeholder='email' id='' name='email' {...register("email")}></input>
+                        <input required placeholder='body' id='' name='body' {...register("body")}></input>
                         <button type="submit">Ok</button>
                     </form>}
                     {showPostsComments && (postsComments.map(comment => (
@@ -291,6 +304,7 @@ const Posts = () => {
                 {userPosts.map(post => (
                     <li key={post.id}>
                         Id: {post.id} Title: {post.title}
+                        <button onClick={() => { postId.current = post.id; setShowCommentDetails(!showCommentDetails) }}>Add comment</button>
                         <button onClick={() => { DeletePost(post) }}><IoTrashOutline /></button>
                         <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
                         <button onClick={() => { ShowPost(post) }}><BsInfoCircle /></button>
@@ -299,6 +313,5 @@ const Posts = () => {
             </ul>
         </>
     );
-
 }
 export default Posts;

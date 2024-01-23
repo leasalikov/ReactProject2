@@ -50,10 +50,11 @@ const Albums = () => {
             </form>
             <ul>
                 {userAlbums.map(item => (
-                    <a key={item.id} href='href="http://localhost:3000/albums"'>
-                    <li key={item.id}>
+                    // <a key={item.id} >
+                    <a key={item.id} onClick={()=>{navigate('/Photos')}}>
                         Id: {item.id} Title: {item.title}
-                    </li></a>
+                    </a>
+
                 ))}
             </ul>
         </>
