@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { IoTrashOutline } from "react-icons/io5";
 import { LuClipboardEdit } from "react-icons/lu";
+import { useForm } from "react-hook-form";
 
 const Comments = () => {
     const location = useLocation();
@@ -12,6 +13,7 @@ const Comments = () => {
     const [postsComments, setPostsComments] = useState([]);
     const [showPostsComments, setShowPostsComments] = useState(false);
     const [nextId, setNextId] = useState();
+    const { register, handleSubmit } = useForm();
 
     useEffect(() => {
         //users todo
