@@ -136,6 +136,15 @@ const Todos = () => {
 
   function AddTodo(event) {
     event.preventDefault();
+    fetch("http://localhost:3000/nextIDs/2", 
+    {
+       method: 'PATCH',
+       body: JSON.stringify({
+           nextId:nextId+1,
+       }),      headers: {
+           'Content-type': 'application/json; charset=UTF-8',
+       },
+       });
     const newTask = { userId: user.id, id: `${nextId}`, title: event.target[0].value, completed: false }
     fetch('http://localhost:3000/todos', {
       method: 'POST',
@@ -208,7 +217,7 @@ const Todos = () => {
         <button type="submit">search</button></form>
 
       <br />
-      <button onClick={() => { setShowTodoDetails(true) }}>Add Todo</button>
+      <button onClick={() => { setShowTodoDetails(!showTodoDetails) }}>Add Todo</button>
       {showTodoDetails && <form onSubmit={AddTodo}>
         <input required placeholder='Write the title of todo' id='' name=''></input>
         <button type="submit">OK</button>

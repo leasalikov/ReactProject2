@@ -8,7 +8,7 @@ import Albums from './Albums';
 
 
 const Home = () => {
-   const [info,setInfo]=useState(false);
+   const [info, setInfo]=useState(false);
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     if(!user){
@@ -21,7 +21,7 @@ const Home = () => {
    
     return(
         <>
-        <button onClick={()=>{setInfo(true)}}>Info</button>
+        <button onClick={()=>{setInfo(!info)}}>Info</button>
         <button onClick={()=>{navigate('todos')}}>Todos</button>
         <button onClick={()=>{navigate('posts')}}>Posts</button>
         <button onClick={()=>{navigate('albums')}}>Albums</button>

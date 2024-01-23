@@ -10,19 +10,60 @@ const Albums = () => {
     const [allUserAlbums, setAllUserAlbums] = useState([]);
     const searchValue = useRef('');
     const navigate = useNavigate();
-    // const location = useLocation();
-    // const {album} = location;
+    const [showTitleInput, setShowTitleInput] = useState(false);
+    const [nextId, setNextId] = useState();
 
+    // useEffect(() => {
+    //     // Fetch user albums
+    //     fetch(`http://localhost:3000/albums?userId=${user.id}`)
+    //         .then(response => response.json())
+    //         .then(json => {
+    //             setUserAlbums(json);
+    //             setAllUserAlbums(json);
+    //         });
 
+    //     fetch("http://localhost:3000/nextIDs/4")
+    //         .then(response => {
+    //             if (!response.ok)
+    //                 throw 'Error' + response.status + ': ' + response.statusText;
+    //             return response.json();
+    //         })
+    //         .then((json) => {
+    //             setNextId(json.nextId)
+    //         }).catch(ex => alert(ex));
+    // }, []);
     useEffect(() => {
-        // Fetch user albums
+    
+        // fetch("http://localhost:3000/nextIDs/5");
+        //         if (!responseNextId.ok) {
+        //             throw 'Error' + responseNextId.status + ': ' + responseNextId.statusText;
+        //         }
+        //         const jsonNextId = await responseNextId.json();
+        //         setNextId(jsonNextId.nextId);
+        //     } catch (ex) {
+        //         alert(ex);
+        //     }
+        // };   
+        // fetchData();    
         fetch(`http://localhost:3000/albums?userId=${user.id}`)
             .then(response => response.json())
             .then(json => {
-                setUserAlbums(json.map(j => { return { ...j, display: false } }));
+                setUserAlbums(json);
                 setAllUserAlbums(json);
-            });
-    }, []);
+            })
+            .catch(ex => alert(ex)); 
+            fetch("http://localhost:3000/nextIDs/5")
+            .then(response => {
+                if (!response.ok)
+                    throw 'Error' + response.status + ': ' + response.statusText;
+                return response.json();
+            })
+            .then((json) => {
+                setNextId(json.nextId)
+            }).catch(ex => alert(ex));  
+    }, [user.id]);
+
+
 
     const { register, handleSubmit } = useForm();
 
@@ -39,6 +80,36 @@ const Albums = () => {
             });
             setUserAlbums(filteredByValue);
         }
+    };
+
+    function AddAlbum(data) {
+        console.log(userAlbums)
+        fetch("http://localhost:3000/nextIDs/5", 
+        {
+           method: 'PATCH',
+           body: JSON.stringify({
+               nextId:nextId+1,
+           }),      headers: {
+               'Content-type': 'application/json; charset=UTF-8',
+           },
+           });
+        const newAlbum = { userId: user.id, id: `${nextId}`, title: data.title }
+        fetch('http://localhost:3000/albums', {
+            method: 'POST',
+            body: JSON.stringify(newAlbum),
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(response => {
+            if (!response.ok)
+                throw 'Error' + response.status + ': ' + response.statusText;
+            //return response.json();//???????????????????????
+        }).then(() => {
+            setUserAlbums(prev => [...prev, newAlbum])
+            setAllUserAlbums(prev => [...prev, newAlbum]);
+            showTitleInput(false);
+            setNextId((prev) => prev + 1);
+        }).catch((ex) => alert(ex));
+
+
     };
 
     return (
@@ -59,51 +130,20 @@ const Albums = () => {
                     // <a key={item.id} >
                     <div key={item.id}>
                         {/* {"/onboarding/profile" state={{ from: "occupation" }}} */}
-                        <Link to={`${item.id}/Photos`} state={{ album: item  }}>
+                        <Link to={`${item.id}/Photos`} state={{ album: item }}>
                             Id: {item.id} Title: {item.title}
-                        </Link><br/>
+                        </Link><br />
                     </div>
                 ))}
             </ul>
+            <button onClick={() => { setShowTitleInput(!showTitleInput) }}>Add Album</button>
+            {showTitleInput && <form onSubmit={handleSubmit(AddAlbum)}>
+                <input required placeholder='Title of new album' id='' name='title' {...register("title")}></input>
+                <button type="submit">Ok</button>
+            </form>}
 
         </>
     )
 }
 
 export default Albums;
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-
-// const Albums = () => {
-//     const user = JSON.parse(localStorage.getItem('user'));
-//     const [userAlbums, setUserAlbums] = useState([]);
-//     const navigate = useNavigate();
-//     const location = useLocation();
-
-//     useEffect(() => {
-//         fetch(`http://localhost:3000/albums?userId=${user.id}`)
-//             .then(response => response.json())
-//             .then(json => {
-//                 setUserAlbums(json);
-//             });
-//     }, [user.id]);
-
-//     const handleAlbumClick = (albumId) => {
-//         navigate(`/Home/Albums/${albumId}/Photos`);
-//     };
-
-//     return (
-//         <>
-//             <h1>Albums</h1>
-//             <ul>
-//                 {userAlbums.map(item => (
-//                     <a key={item.id} onClick={() => handleAlbumClick(item.id)}>
-//                         Id: {item.id} Title: {item.title}
-//                     </a>
-//                 ))}
-//             </ul>
-//         </>
-//     );
-// };
-
-// export default Albums;
