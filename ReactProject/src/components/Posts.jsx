@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { IoTrashOutline } from "react-icons/io5";
 import { LuClipboardEdit } from "react-icons/lu";
 import { BsInfoCircle } from "react-icons/bs";
+import { Navigate, Outlet } from 'react-router-dom';
+
 const Posts = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userPosts, setUserPosts] = useState([]);
@@ -15,14 +17,13 @@ const Posts = () => {
     const [selectedPost, setSelectedPost] = useState(null);
 
     const [showPostsComments, setShowPostsComments] = useState(false);
-    const [postsComments, setPostsComments] = useState([]);
+    // const [postsComments, setPostsComments] = useState([]);
     const [showCommentDetails, setShowCommentDetails] = useState(false);
     const [showAAA, setShowAAA] = useState(false);
 
     const [showsearchBox, setShowsearchBox] = useState(false);
     const [allUserPosts, setAllUserPosts] = useState([]);
     const [] = useState(false);
-
 
     const { register, handleSubmit } = useForm();
     const postId = useRef(0);
@@ -54,7 +55,7 @@ const Posts = () => {
 
 
     const AddPost=  (data)=> {
-        debugger
+
         console.log(userPosts)
          fetch("http://localhost:3000/nextIDs/3", 
         {
@@ -105,23 +106,23 @@ const DeletePost = async (post) => {
         }
     }
 };
-const DeleteComment = async (comment) => {
-    const userConfirmed = window.confirm('Do you want to delete this comment?');
-    if (userConfirmed) {
-        try {
-            await fetch(`http://localhost:3000/comments/${comment.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            setPostsComments((prevPostsComments) => prevPostsComments.filter((item) => item.id !== comment.id));
-        } catch (error) {
-            console.error('שגיאה במחיקת הפוסט', error);
-        }
-    }
+// const DeleteComment = async (comment) => {
+//     const userConfirmed = window.confirm('Do you want to delete this comment?');
+//     if (userConfirmed) {
+//         try {
+//             await fetch(`http://localhost:3000/comments/${comment.id}`, {
+//                 method: 'DELETE',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//             });
+//             setPostsComments((prevPostsComments) => prevPostsComments.filter((item) => item.id !== comment.id));
+//         } catch (error) {
+//             console.error('שגיאה במחיקת הפוסט', error);
+//         }
+//     }
 
-}
+// }
 
 const UpdatePost = async (data) => {
     try {
@@ -162,49 +163,50 @@ const UpdatePost = async (data) => {
         console.error('שגיאה בעדכון הפריט', error);
     }
 };
-const UpdateComment = async (data) => {
-    try {
-        await fetch(`http://localhost:3000/comments/${commentId.current}`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                name: data.name,
-                body: data.body
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        });
-        setPostsComments((prevPostsComments) =>
-            prevPostsComments.map((postsComments) =>
-                postsComments.id === commentId.current
-                    ? {
-                        ...postsComments,
-                        name: data.name,
-                        body: data.body
-                    }
-                    : postsComments
-            )
-        );
-        setShowAAA(!showAAA);
-    } catch (error) {
-        console.error('שגיאה בעדכון הפריט', error);
-    }
-}
+// const UpdateComment = async (data) => {
+//     try {
+//         await fetch(`http://localhost:3000/comments/${commentId.current}`, {
+//             method: 'PATCH',
+//             body: JSON.stringify({
+//                 name: data.name,
+//                 body: data.body
+//             }),
+//             headers: {
+//                 'Content-type': 'application/json; charset=UTF-8',
+//             },
+//         });
+//         setPostsComments((prevPostsComments) =>
+//             prevPostsComments.map((postsComments) =>
+//                 postsComments.id === commentId.current
+//                     ? {
+//                         ...postsComments,
+//                         name: data.name,
+//                         body: data.body
+//                     }
+//                     : postsComments
+//             )
+//         );
+//         setShowAAA(!showAAA);
+//     } catch (error) {
+//         console.error('שגיאה בעדכון הפריט', error);
+//     }
+// }
 
 const ShowPost = (post) => {
+    // debugger
     setSelectedPost(post);
-    setShowPostInfo(!showPostInfo);
+    setShowPostInfo(true);
     // let post = { userId: user.id, id: post.id, title: post.title, body: post.body }
     // setUserPosts((prevUserPosts) => prevUserPosts.filter((post) => post.id !== post.id));
 }
-const PostsComments = async (id) => {
-    // console.log("gjb m,");
-    setShowPostsComments(!showPostsComments);
-    await fetch(`http://localhost:3000/comments?postId=${id}`)
-        // await fetch(`http://localhost:3000/comments/1`)
-        .then(response => response.json())
-        .then(json => setPostsComments(json));
-}
+// const PostsComments = async (id) => {
+//     // console.log("gjb m,");
+//     setShowPostsComments(!showPostsComments);
+//     await fetch(`http://localhost:3000/comments?postId=${id}`)
+//         // await fetch(`http://localhost:3000/comments/1`)
+//         .then(response => response.json())
+//         .then(json => setPostsComments(json));
+// }
 
 
 // const ShowAddComment=(post)=>{
@@ -214,43 +216,45 @@ const PostsComments = async (id) => {
 //     // localStorage.setItem('post', JSON.stringify(post));
 // }
 
-function AddComment(data) {
+// function AddComment(data) {
     
-    // console.log(userPosts)
-    fetch("http://localhost:3000/nextIDs/4", 
-    {
-       method: 'PATCH',
-       body: JSON.stringify({
-           nextId:nextId+1,
-       }),      headers: {
-           'Content-type': 'application/json; charset=UTF-8',
-       },
-       });
-    console.log("Data:", data);
-    // debugger
-    if (data.email === user.email) {
-        const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
-        console.log(postId.current)
-        fetch(`http://localhost:3000/comments?postId=${postId.current}`, {
-            method: 'POST',
-            body: JSON.stringify(newComment),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(response => {
-            if (!response.ok)
-                throw 'Error' + response.status + ': ' + response.statusText;
-            //return response.json();//????
-        }).then(() => {
-            setPostsComments(prev => [...prev, newComment])
-            setShowCommentDetails(false);
-            setNextId((prev) => prev + 1);
-        }).catch((ex) => alert(ex));
-    }
-    else {
-        alert("The email is incorrect!")
-    }
-};
+//     // console.log(userPosts)
+//     fetch("http://localhost:3000/nextIDs/4", 
+//     {
+//        method: 'PATCH',
+//        body: JSON.stringify({
+//            nextId:nextId+1,
+//        }),      headers: {
+//            'Content-type': 'application/json; charset=UTF-8',
+//        },
+//        });
+//     console.log("Data:", data);
+//     // debugger
+//     if (data.email === user.email) {
+//         const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
+//         console.log(postId.current)
+//         fetch(`http://localhost:3000/comments?postId=${postId.current}`, {
+//             method: 'POST',
+//             body: JSON.stringify(newComment),
+//             headers: { 'Content-type': 'application/json; charset=UTF-8' },
+//         }).then(response => {
+//             if (!response.ok)
+//                 throw 'Error' + response.status + ': ' + response.statusText;
+//             //return response.json();//????
+//         }).then(() => {
+//             setPostsComments(prev => [...prev, newComment])
+//             setShowCommentDetails(false);
+//             setNextId((prev) => prev + 1);
+//         }).catch((ex) => alert(ex));
+//     }
+//     else {
+//         alert("The email is incorrect!")
+//     }
+// };
 
 const Search = (data) => {
+    setShowPostInfo(false);
+
     setShowsearchBox(false);
 
     let val = searchValue.current;
@@ -262,11 +266,20 @@ const Search = (data) => {
         const filteredByValue = arr.filter(obj => {
             return obj[val] == data.valueToSearch;
         });
+        if(filteredByValue.length===0)
+        {
+            alert("There is no argument with this value")
+            return;
+        }
         console.log(filteredByValue);
         setUserPosts(filteredByValue);
     }
 }
-
+const navigateToComments = () => {
+    // debugger
+    // הפנייה לדף היעד עם הפרופ PostsComments
+    return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
+  };
 return (
     <>
         <h1>Posts</h1>
@@ -291,21 +304,25 @@ return (
             <input required placeholder='Write a new body of the post' id='' name='body' {...register("body")}></input>
             <button type="submit">OK</button>
         </form>}
-        {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
+        {/* {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
             <input required placeholder='name' id='' name='name' {...register("name")}></input>
             <input required placeholder='email' id='' name='email' {...register("email")}></input>
             <input required placeholder='body' id='' name='body' {...register("body")}></input>
             <button type="submit">Ok</button>
-        </form>}
-
+        </form>} */}
         {showPostInfo && selectedPost && (
             <div>
                 <p>User Id: {selectedPost.userId}</p>
                 <p>Post Id: {selectedPost.id}</p>
                 <p>Title: {selectedPost.title}</p>
                 <p>Body: {selectedPost.body}</p>
-                <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
-                {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
+                {/* <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button> */}
+                <button onClick={navigateToComments}>Comments</button>
+                {/* <><Navigate to={"comments"} state={{post: selectedPost, user: user}} />
+                <Outlet /></> */}
+
+
+                {/* {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
                     <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
                     <input required placeholder='Writea new body of the  comment' id='' name='body' {...register("body")}></input>
                     <button type="submit">Ok</button>
@@ -315,14 +332,14 @@ return (
                     <input required placeholder='email' id='' name='email' {...register("email")}></input>
                     <input required placeholder='body' id='' name='body' {...register("body")}></input>
                     <button type="submit">Ok</button>
-                </form>}
-                {showPostsComments && (postsComments.map(comment => (
+                </form>} */}
+                {/* {showPostsComments && (postsComments.map(comment => (
                     <li key={comment.id}>
                         Id: {comment.id}<br />name: {comment.name}<br />Email: {comment.email}
                         {comment.email == user.email ? <><button onClick={() => { DeleteComment(comment) }}><IoTrashOutline /></button>
                             <button onClick={() => { commentId.current = comment.id; setShowAAA(!showAAA) }}><LuClipboardEdit /></button></> : null}
                     </li>
-                )))}
+                )))} */}
             </div>
         )}
         <ul>

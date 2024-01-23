@@ -21,7 +21,7 @@ const Photos = () => {
             });
     }
     // useEffect(() => {
-    //     ShowPhotos();
+    //         handleNextPage();
     // }, []);
     console.log(albumsPhotos)
     const handleNextPage = () => {
@@ -42,15 +42,16 @@ const Photos = () => {
     <input required placeholder='Title of new album' id='' name='title' {...register("title")}></input>
     <button type="submit">Ok</button>
 </form>} */}
-<ul>
-            <button onClick={handleNextPage} >Next</button>
-            {albumsPhotos.map(item => (
-                <li key={item.id}>
-                    <b>Title: </b>{item.title}<br />
-                    <img src={item.thumbnailUrl} alt={`Image ${item.id}`} />
-                </li>
-            ))}
+            <ul>
+
+                {albumsPhotos.map(item => (
+                    <li key={item.id}>
+                        <b>Title: </b>{item.title}<br />
+                        <img src={item.thumbnailUrl} alt={`Image ${item.id}`} />
+                    </li>
+                ))}
             </ul>
+            <button onClick={handleNextPage} >Next</button>
         </>
     );
 };
