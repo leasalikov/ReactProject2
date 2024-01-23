@@ -23,7 +23,6 @@ return(
     lat: {user.address.geo.lat}<br />
     lng: {user.address.geo.lng} 
     phone: {user.phone}<br />
-    website: {user.website}<br />
     email: {user.email}<br />
     company<br/>
     Name: {user.company.Name}<br />

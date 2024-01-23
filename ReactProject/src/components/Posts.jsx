@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { IoTrashOutline } from "react-icons/io5";
+import { LuClipboardEdit } from "react-icons/lu";
+import { BsInfoCircle } from "react-icons/bs";
 const Posts = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userPosts, setUserPosts] = useState([]);
@@ -125,19 +128,19 @@ const Posts = () => {
             {showPostsDetails && <form onSubmit={handleSubmit(AddPost)}>
                 <input required placeholder='Write the title of post' id='' name='title'{...register("title")} ></input>
                 <input required placeholder='Write the body of post' id='' name='body' {...register("body")}></input>
-                <button type="submit">Ok</button>
+                <button type="submit">OK</button>
             </form>}
             {viewpostUpdate && <form onSubmit={handleSubmit(UpdatePost)}>
                 <input required placeholder='Write a new title of the post' id='' name='title' {...register("title")}></input>
                 <input required placeholder='Write a new body of the post' id='' name='body' {...register("body")}></input>
-                <button type="submit">Ok</button>
+                <button type="submit">OK</button>
             </form>}
             {showPostInfo && selectedPost && (
                 <div>
-                    <p>{selectedPost.userId}</p>
-                    <p>{selectedPost.id}</p>
-                    <p>{selectedPost.title}</p>
-                    <p>{selectedPost.body}</p>
+                    <p>User Id: {selectedPost.userId}</p>
+                    <p>Post Id: {selectedPost.id}</p>
+                    <p>Title: {selectedPost.title}</p>
+                    <p>Body: {selectedPost.body}</p>
                     <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
                     {showPostsComments && (postsComments.map(comment => (
                         <li key={comment.id}>
@@ -150,9 +153,9 @@ const Posts = () => {
                 {userPosts.map(post => (
                     <li key={post.id}>
                         Id: {post.id} Title: {post.title}
-                        <button onClick={() => { DeletePost(post) }}>Delete</button>
-                        <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}>Update</button>
-                        <button onClick={() => { ShowPost(post) }}>Info</button>
+                        <button onClick={() => { DeletePost(post) }}><IoTrashOutline /></button>
+                        <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
+                        <button onClick={() => { ShowPost(post) }}><BsInfoCircle /></button>
                     </li>
                 ))}
             </ul>
