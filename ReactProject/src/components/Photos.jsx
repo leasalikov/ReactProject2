@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { IoTrashOutline } from "react-icons/io5";
+import { LuClipboardEdit } from "react-icons/lu";
 
 const Photos = () => {
     const location = useLocation();
@@ -7,7 +9,10 @@ const Photos = () => {
     const { id } = useParams();
     const [albumsPhotos, setAlbumsPhotos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [indexPhotos, setIndexPhotos] = useState({ start: 0, end: 7 })
+    const [indexPhotos, setIndexPhotos] = useState({ start: 0, end: 7 });
+    const photoId = useRef(0);
+    const [viewPhotoUpdate, setViewPhotoUpdate] = useState(false);
+
     const photosPerPage = 3;
 
     const ShowPhotos = async () => {
@@ -48,7 +53,7 @@ const Photos = () => {
                         <b>Title: </b>{photo.title}<br />
                         <img src={photo.thumbnailUrl} alt={`Image ${photo.id}`} />
                         <button onClick={() => { DeletePhoto(photo) }}><IoTrashOutline /></button>
-                        <button onClick={() => { albumId.current = photo.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
+                        <button onClick={() => { photoId.current = photo.id; setViewPhotoUpdate(true) }}><LuClipboardEdit /></button>
                     </li>
                 ))}
             </ul>
