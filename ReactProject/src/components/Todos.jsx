@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { IoTrashOutline } from "react-icons/io5";
+import { LuClipboardEdit } from "react-icons/lu";
 
 const Todos = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -13,7 +15,6 @@ const Todos = () => {
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
   const itemId = useRef(0);
-  const searchValue = useRef(0);
 
   useEffect(() => {
     //users todo
@@ -104,35 +105,6 @@ const Todos = () => {
     }
   };
 
-
-  // useEffect(() => {
-  //   //fech next id
-  //   fetch("http://localhost:3000/nextIDs/2")
-  //     .then(response => {
-  //       if (!response.ok)
-  //         throw 'Error' + response.status + ': ' + response.statusText;
-  //       return response.json();
-  //     })
-  //     .then((json) => {
-  //       setNextId(json.nextId)
-  //     }).catch(ex => alert(ex))
-
-  //   //fech todos
-  //   fetch(`http://localhost:3000/todos?userId=${userDetailes.id}`)
-  //     .then(response => {
-  //       if (!response.ok)
-  //         throw 'Error' + response.status + ': ' + response.statusText;
-  //       return response.json();
-  //     })
-  //     .then(UserTodos => {
-  //       setUserTodos(UserTodos);
-  //       // setUserTodos(UserTodos.map(todo => { return { ...todo, editables: false } }));
-  //       let todosArr = []
-  //       for (let i = 0; i < UserTodos.length; i++)
-  //         todosArr.push({ ...UserTodos[i], i: i, editable: false })
-  //       setTodos(todosArr);
-  //     }).catch(ex => alert(ex))
-  // }, [])
   const UpdateTodo = async (title) => {
     try {
       await fetch(`http://localhost:3000/todos/${itemId.current}`, {
@@ -179,15 +151,6 @@ const Todos = () => {
       setNextId(prev => prev + 1)
     }).catch((ex) => alert(ex));
   }
-
-
-  //בדיקה אם יש עוד כזאת משימה
-  // const response = await fetch(`http://localhost:3000/todos?title=${todo.title}&userId=${todo.userId}`);
-  // const UserTodos = await response.json();
-  // if (!(UserTodos.length === 0))
-  //     alert("You have already that todo!");
-
-  // console.log(UserTodos);
 
   const UpdateTodoStatus = (item) => {
     // console.log(item.completed);
@@ -248,20 +211,20 @@ const Todos = () => {
       <button onClick={() => { setShowTodoDetails(true) }}>Add Todo</button>
       {showTodoDetails && <form onSubmit={AddTodo}>
         <input required placeholder='Write the title of todo' id='' name=''></input>
-        <button type="submit">Ok</button>
+        <button type="submit">OK</button>
       </form>}
       {viewItemUpdate && <form onSubmit={handleSubmit(UpdateTodo)}>
         <input required placeholder='Write a new title of the todo' id='' name='title' {...register("title")}></input>
-        <button type="submit">Ok</button>
+        <button type="submit">OK</button>
       </form>}
       <div>
         <ul>
           {UserTodos.map(item => (
             <li key={item.id}>
               <input type="checkbox" checked={item.completed} onChange={() => UpdateTodoStatus(item)} />
-              Id: {item.id} Title: {item.title}
-              <button onClick={() => DeleteTodo(item)}>Delete</button>
-              <button onClick={() => { { itemId.current = item.id }; setViewItemUpdate(true) }}>Update</button>
+              <b>Id: </b>{item.id} <b>Title: </b>{item.title}
+              <button onClick={() => DeleteTodo(item)}><IoTrashOutline /></button>
+              <button onClick={() => { { itemId.current = item.id }; setViewItemUpdate(true) }}><LuClipboardEdit /></button>
             </li>
           ))}
 

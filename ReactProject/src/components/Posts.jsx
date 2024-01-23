@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { IoTrashOutline } from "react-icons/io5";
+import { LuClipboardEdit } from "react-icons/lu";
+import { BsInfoCircle } from "react-icons/bs";
 const Posts = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userPosts, setUserPosts] = useState([]);
@@ -256,26 +259,19 @@ const Posts = () => {
             {showPostsDetails && <form onSubmit={handleSubmit(AddPost)}>
                 <input required placeholder='Write the title of post' id='' name='title'{...register("title")} ></input>
                 <input required placeholder='Write the body of post' id='' name='body' {...register("body")}></input>
-                <button type="submit">Ok</button>
+                <button type="submit">OK</button>
             </form>}
             {viewpostUpdate && <form onSubmit={handleSubmit(UpdatePost)}>
                 <input required placeholder='Write a new title of the post' id='' name='title' {...register("title")}></input>
                 <input required placeholder='Write a new body of the post' id='' name='body' {...register("body")}></input>
-                <button type="submit">Ok</button>
+                <button type="submit">OK</button>
             </form>}
-            {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
-                <input required placeholder='name' id='' name='name' {...register("name")}></input>
-                <input required placeholder='email' id='' name='email' {...register("email")}></input>
-                <input required placeholder='body' id='' name='body' {...register("body")}></input>
-                <button type="submit">Ok</button>
-            </form>}
-
             {showPostInfo && selectedPost && (
                 <div>
-                    <p>{selectedPost.userId}</p>
-                    <p>{selectedPost.id}</p>
-                    <p>{selectedPost.title}</p>
-                    <p>{selectedPost.body}</p>
+                    <p>User Id: {selectedPost.userId}</p>
+                    <p>Post Id: {selectedPost.id}</p>
+                    <p>Title: {selectedPost.title}</p>
+                    <p>Body: {selectedPost.body}</p>
                     <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
                     {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
                         <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
@@ -295,10 +291,9 @@ const Posts = () => {
                 {userPosts.map(post => (
                     <li key={post.id}>
                         Id: {post.id} Title: {post.title}
-                        <button onClick={() => { DeletePost(post) }}>Delete</button>
-                        <button onClick={() => { postId.current = post.id; setViewpostUpdate(!viewpostUpdate) }}>Update</button>
-                        <button onClick={() => { ShowPost(post) }}>Info</button>
-                        <button onClick={() => { postId.current = post.id; setShowCommentDetails(!showCommentDetails) }}>Add comment</button>
+                        <button onClick={() => { DeletePost(post) }}><IoTrashOutline /></button>
+                        <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
+                        <button onClick={() => { ShowPost(post) }}><BsInfoCircle /></button>
                     </li>
                 ))}
             </ul>
