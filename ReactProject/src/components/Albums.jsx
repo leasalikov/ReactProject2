@@ -61,7 +61,7 @@ const Albums = () => {
             .then((json) => {
                 setNextId(json.nextId)
             }).catch(ex => alert(ex));  
-    }, [user.id]);
+    },[]);
 
 
 
@@ -105,11 +105,9 @@ const Albums = () => {
         }).then(() => {
             setUserAlbums(prev => [...prev, newAlbum])
             setAllUserAlbums(prev => [...prev, newAlbum]);
-            showTitleInput(false);
+            // showTitleInput(false);
             setNextId((prev) => prev + 1);
         }).catch((ex) => alert(ex));
-
-
     };
 
     return (

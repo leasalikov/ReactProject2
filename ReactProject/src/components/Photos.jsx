@@ -11,7 +11,6 @@ const Photos = () => {
     const photosPerPage = 3;
 
     const ShowPhotos = async () => {
-
         await fetch(`http://localhost:3000/photos/?albumId=${album.id}&&_start=${indexPhotos.start}&&_end=${indexPhotos.end}`)
             .then(response => response.json())
             // .then(json => console.log(json))
@@ -44,10 +43,12 @@ const Photos = () => {
 </form>} */}
             <ul>
 
-                {albumsPhotos.map(item => (
-                    <li key={item.id}>
-                        <b>Title: </b>{item.title}<br />
-                        <img src={item.thumbnailUrl} alt={`Image ${item.id}`} />
+                {albumsPhotos.map(photo => (
+                    <li key={photo.id}>
+                        <b>Title: </b>{photo.title}<br />
+                        <img src={photo.thumbnailUrl} alt={`Image ${photo.id}`} />
+                        <button onClick={() => { DeletePhoto(photo) }}><IoTrashOutline /></button>
+                        <button onClick={() => { albumId.current = photo.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
                     </li>
                 ))}
             </ul>
