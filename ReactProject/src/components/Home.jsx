@@ -1,5 +1,5 @@
 
-import {Navigate, useNavigate} from 'react-router-dom';
+import {Navigate, Outlet, useNavigate} from 'react-router-dom';
 import React ,{ useEffect,useState}from 'react';
 import Info from './Info';
 import Todos from './Todos';
@@ -22,12 +22,13 @@ const Home = () => {
     return(
         <>
         <button onClick={()=>{setInfo(true)}}>Info</button>
-        <button onClick={()=>{navigate('/Home/Todos')}}>Todos</button>
-        <button onClick={()=>{navigate('/Home/Posts')}}>Posts</button>
-        <button onClick={()=>{navigate('/Home/Albums')}}>Albums</button>
+        <button onClick={()=>{navigate('todos')}}>Todos</button>
+        <button onClick={()=>{navigate('posts')}}>Posts</button>
+        <button onClick={()=>{navigate('albums')}}>Albums</button>
         <button onClick={logOut}>Logout</button>
         <h1>{user.username}</h1>  
         {info&&<Info />}
+        <Outlet/>
         </>
     )
 

@@ -104,7 +104,7 @@ const Register = () => {
             },
           })
             .then((response) => response.json())
-            .then((navigate('/Home')));
+            .then((navigate(`/users/${formData.id}/home`)));
     };
 
     return (

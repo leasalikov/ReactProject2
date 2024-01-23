@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { useNavigate, Link } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 const Albums = () => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -7,6 +9,10 @@ const Albums = () => {
     const [showsearchBox, setShowsearchBox] = useState(false);
     const [allUserAlbums, setAllUserAlbums] = useState([]);
     const searchValue = useRef('');
+    const navigate = useNavigate();
+    // const location = useLocation();
+    // const {album} = location;
+
 
     useEffect(() => {
         // Fetch user albums
@@ -23,7 +29,7 @@ const Albums = () => {
     const Search = (data) => {
         setShowsearchBox(false);
         let val = searchValue.current;
-        
+
         if (val === 'All') {
             setUserAlbums(allUserAlbums);
         } else {
@@ -51,14 +57,53 @@ const Albums = () => {
             <ul>
                 {userAlbums.map(item => (
                     // <a key={item.id} >
-                    <a key={item.id} onClick={()=>{navigate('/Photos')}}>
-                        Id: {item.id} Title: {item.title}
-                    </a>
-
+                    <div key={item.id}>
+                        {/* {"/onboarding/profile" state={{ from: "occupation" }}} */}
+                        <Link to={`${item.id}/Photos`} state={{ album: item  }}>
+                            Id: {item.id} Title: {item.title}
+                        </Link><br/>
+                    </div>
                 ))}
             </ul>
+
         </>
     )
 }
 
 export default Albums;
+// import React, { useState, useEffect } from 'react';
+// import { useNavigate, useLocation } from 'react-router-dom';
+
+// const Albums = () => {
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     const [userAlbums, setUserAlbums] = useState([]);
+//     const navigate = useNavigate();
+//     const location = useLocation();
+
+//     useEffect(() => {
+//         fetch(`http://localhost:3000/albums?userId=${user.id}`)
+//             .then(response => response.json())
+//             .then(json => {
+//                 setUserAlbums(json);
+//             });
+//     }, [user.id]);
+
+//     const handleAlbumClick = (albumId) => {
+//         navigate(`/Home/Albums/${albumId}/Photos`);
+//     };
+
+//     return (
+//         <>
+//             <h1>Albums</h1>
+//             <ul>
+//                 {userAlbums.map(item => (
+//                     <a key={item.id} onClick={() => handleAlbumClick(item.id)}>
+//                         Id: {item.id} Title: {item.title}
+//                     </a>
+//                 ))}
+//             </ul>
+//         </>
+//     );
+// };
+
+// export default Albums;

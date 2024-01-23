@@ -17,7 +17,7 @@ function LogIn() {
             else {
 
                 localStorage.setItem('user', JSON.stringify(data[0]));
-                navigate('/Home');
+                navigate(`/users/${data[0].id}/home`);
             }
 
         } catch (error) {
