@@ -316,8 +316,9 @@ return (
                 <p>Post Id: {selectedPost.id}</p>
                 <p>Title: {selectedPost.title}</p>
                 <p>Body: {selectedPost.body}</p>
-                {/* <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button> */}
-                <button onClick={navigateToComments}>Comments</button>
+                <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
+                
+                {/* <button onClick={navigateToComments}>Comments</button> */}
                 {/* <><Navigate to={"comments"} state={{post: selectedPost, user: user}} />
                 <Outlet /></> */}
 
