@@ -155,7 +155,7 @@ const Todos = () => {
       setAllUserTodos(prev => [...prev, newTask])
       setUserTodos(prev => [...prev, newTask]);
       setShowTodoDetails(false);
-      setNextId(prev => prev + 1)
+      setNextId(prev => prev + 1);
     }).catch((ex) => alert(ex));
   }
 
