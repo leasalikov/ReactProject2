@@ -47,6 +47,7 @@ const Register = () => {
             console.error('ERROR:', error);
         }
     };
+
     const CheckPassword = (event)=>{
         event.preventDefault();
         if(user.password===user.verifyPassword)
@@ -55,7 +56,6 @@ const Register = () => {
         alert("The password is incorrect!")
         }
     }
-
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
