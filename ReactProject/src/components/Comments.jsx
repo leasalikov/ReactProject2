@@ -28,7 +28,7 @@ const Comments = () => {
 
     return (
         <>
-        <h>jhcn,jhjuymykbgjft</h>
+        <h>comments</h>
             {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
                 <input required placeholder='name' id='' name='name' {...register("name")}></input>
                 <input required placeholder='email' id='' name='email' {...register("email")}></input>
@@ -150,30 +150,30 @@ export default Comments;
 //             .then(response => response.json())
 //             .then(json => setPostsComments(json));
 //     }
-//     function AddComment(data) {
-//         UpdateId();
-//         console.log("Data:", data);
-//         if (data.email === user.email) {
-//             const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
-//             console.log(postId.current)
-//             fetch(`http://localhost:3000/comments?postId=${postId.current}`, {
-//                 method: 'POST',
-//                 body: JSON.stringify(newComment),
-//                 headers: { 'Content-type': 'application/json; charset=UTF-8' },
-//             }).then(response => {
-//                 if (!response.ok)
-//                     throw 'Error' + response.status + ': ' + response.statusText;
-//                 //return response.json();//????
-//             }).then(() => {
-//                 setPostsComments(prev => [...prev, newComment])
-//                 setShowCommentDetails(false);
-//                 setNextId((prev) => prev + 1);
-//             }).catch((ex) => alert(ex));
-//         }
-//         else {
-//             alert("The email is incorrect!")
-//         }
-//     };
+    function AddComment(data) {
+        UpdateId();
+        console.log("Data:", data);
+        if (data.email === user.email) {
+            const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
+            console.log(postId.current)
+            fetch(`http://localhost:3000/comments?postId=${postId.current}`, {
+                method: 'POST',
+                body: JSON.stringify(newComment),
+                headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(response => {
+                if (!response.ok)
+                    throw 'Error' + response.status + ': ' + response.statusText;
+                //return response.json();//????
+            }).then(() => {
+                setPostsComments(prev => [...prev, newComment])
+                setShowCommentDetails(false);
+                setNextId((prev) => prev + 1);
+            }).catch((ex) => alert(ex));
+        }
+        else {
+            alert("The email is incorrect!")
+        }
+    };
 
 //     return (
 //         <>

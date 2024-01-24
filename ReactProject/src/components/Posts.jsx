@@ -5,6 +5,7 @@ import { LuClipboardEdit } from "react-icons/lu";
 import { BsInfoCircle } from "react-icons/bs";
 import { Navigate, Outlet } from 'react-router-dom';
 
+
 const Posts = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userPosts, setUserPosts] = useState([]);
@@ -12,26 +13,21 @@ const Posts = () => {
     const [showPostInfo, setShowPostInfo] = useState(false);
     const [viewpostUpdate, setViewpostUpdate] = useState(false);
     const [nextId, setNextId] = useState();
-    const [post, setPost] = useState();
-
+    const [nextCommentsId, setNextCommentsId] = useState();
     const [selectedPost, setSelectedPost] = useState(null);
-
     const [showPostsComments, setShowPostsComments] = useState(false);
     const [postsComments, setPostsComments] = useState([]);
     const [showCommentDetails, setShowCommentDetails] = useState(false);
     const [showAAA, setShowAAA] = useState(false);
-
     const [showsearchBox, setShowsearchBox] = useState(false);
     const [allUserPosts, setAllUserPosts] = useState([]);
-    const [] = useState(false);
-
     const { register, handleSubmit } = useForm();
     const postId = useRef(0);
     const commentId = useRef(0);
     const searchValue = useRef('');
 
     useEffect(() => {
-        //users todo
+
         fetch(`http://localhost:3000/posts?userId=${user.id}`)
             .then(response => response.json())
             .then(json => {
@@ -39,9 +35,6 @@ const Posts = () => {
                 setAllUserPosts(json);
             });
 
-        //   .then(json => {
-        // setUserTodos(json.map(j=>{return{...j,display:false}}));
-        // localStorage.setItem('userPosts', JSON.stringify(json));
         fetch("http://localhost:3000/nextIDs/3")
             .then(response => {
                 if (!response.ok)
@@ -50,6 +43,15 @@ const Posts = () => {
             })
             .then((json) => {
                 setNextId(json.nextId)
+            }).catch(ex => alert(ex));
+        fetch("http://localhost:3000/nextIDs/4")
+            .then(response => {
+                if (!response.ok)
+                    throw 'Error' + response.status + ': ' + response.statusText;
+                return response.json();
+            })
+            .then((json) => {
+                setNextCommentsId(json.nextId)
             }).catch(ex => alert(ex));
     }, [])
 
@@ -101,23 +103,7 @@ const Posts = () => {
         }
     };
 
-    const DeleteComment = async (comment) => {
-        const userConfirmed = window.confirm('Do you want to delete this comment?');
-        if (userConfirmed) {
-            try {
-                await fetch(`http://localhost:3000/comments/${comment.id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                setPostsComments((prevPostsComments) => prevPostsComments.filter((item) => item.id !== comment.id));
-            } catch (error) {
-                console.error('שגיאה במחיקת הפוסט', error);
-            }
-        }
 
-    }
 
     const UpdatePost = async (data) => {
         try {
@@ -188,41 +174,36 @@ const Posts = () => {
     }
 
     const ShowPost = (post) => {
-        // debugger
         setSelectedPost(post);
         setShowPostInfo(true);
-        // let post = { userId: user.id, id: post.id, title: post.title, body: post.body }
-        // setUserPosts((prevUserPosts) => prevUserPosts.filter((post) => post.id !== post.id));
     }
     const PostsComments = async (id) => {
-        // console.log("gjb m,");
         setShowPostsComments(!showPostsComments);
         await fetch(`http://localhost:3000/comments?postId=${id}`)
-            // await fetch(`http://localhost:3000/comments/1`)
             .then(response => response.json())
             .then(json => setPostsComments(json));
     }
 
-    const ShowAddComment = (post) => {
-        setShowCommentDetails(true);
-        // localStorage.setItem('post', JSON.stringify(data[0]));
-        // const post = { userId: post.userId, id: post.id, title: post.title, body: post.body };
-        // localStorage.setItem('post', JSON.stringify(post));
-    }
+    // const ShowAddComment = (post) => {
+    //     setShowCommentDetails(true);
+    //     // localStorage.setItem('post', JSON.stringify(data[0]));
+    //     // const post = { userId: post.userId, id: post.id, title: post.title, body: post.body };
+    //     // localStorage.setItem('post', JSON.stringify(post));
+    // }
 
     function AddComment(data) {
-
         // console.log(userPosts)
         fetch("http://localhost:3000/nextIDs/4",
             {
                 method: 'PATCH',
                 body: JSON.stringify({
-                    nextId: nextId + 1,
+                    nextId: nextCommentsId + 1,
                 }), headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
-            });
-        console.log("Data:", data);
+
+        }).then(setNextCommentsId((prev) => prev + 1));
+        // console.log("Data:", data);
         // debugger
         if (data.email === user.email) {
             const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
@@ -238,7 +219,6 @@ const Posts = () => {
             }).then(() => {
                 setPostsComments(prev => [...prev, newComment])
                 setShowCommentDetails(false);
-                setNextId((prev) => prev + 1);
             }).catch((ex) => alert(ex));
         }
         else {
@@ -267,11 +247,30 @@ const Posts = () => {
             setUserPosts(filteredByValue);
         }
     }
-    const navigateToComments = () => {
+
+    const DeleteComment = async (comment) => {
+        const userConfirmed = window.confirm('Do you want to delete this comment?');
+        if (userConfirmed) {
+            try {
+                await fetch(`http://localhost:3000/comments/${comment.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                setPostsComments((prevPostsComments) => prevPostsComments.filter((item) => item.id !== comment.id));
+            } catch (error) {
+                console.error('שגיאה במחיקת הפוסט', error);
+            }
+        }
+
+    }
+    const navigateToComments = (selectedPost) => {
+        // console.log("j.fkbl x");
         // debugger
         // הפנייה לדף היעד עם הפרופ PostsComments
         <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
-        <Outlet /></>
+            <Outlet /></>
         // return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
     };
     return (
@@ -310,9 +309,10 @@ const Posts = () => {
                     <p>Post Id: {selectedPost.id}</p>
                     <p>Title: {selectedPost.title}</p>
                     <p>Body: {selectedPost.body}</p>
-                    <button onClick={() => { navigateToComments(selectedPost.id) }}>Comments</button>
+                    <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
 
-                    <button onClick={navigateToComments}>Comments</button>
+                    {/* <button onClick={()=>{navigateToComments(selectedPost)}}>Comments</button> */}
+                    {/* <button onClick={navigateToComments}>Comments</button> */}
                     {/* {!displayComments ?
                         <button onClick={() => SetDisplayComments(true)} >show all comments</button>
                         :
@@ -320,8 +320,8 @@ const Posts = () => {
                             <Outlet />
                         </>
                     } */}
-                    <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
-                        <Outlet /></>
+                    {/* <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
+                        <Outlet /></> */}
 
 
                     {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
@@ -348,7 +348,7 @@ const Posts = () => {
                 {userPosts.map(post => (
                     <li key={post.id}>
                         Id: {post.id} Title: {post.title}
-                        <button onClick={() => { postId.current = post.id; setShowCommentDetails(!showCommentDetails) }}>Add comment</button>
+                        <button onClick={() => { postId.current = post.id; setShowCommentDetails(true) }}>Add comment</button>
                         <button onClick={() => { DeletePost(post) }}><IoTrashOutline /></button>
                         <button onClick={() => { postId.current = post.id; setViewpostUpdate(true) }}><LuClipboardEdit /></button>
                         <button onClick={() => { ShowPost(post) }}><BsInfoCircle /></button>
