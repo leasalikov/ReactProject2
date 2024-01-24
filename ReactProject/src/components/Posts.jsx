@@ -54,7 +54,6 @@ const Posts = () => {
     }, [])
 
     const AddPost = (data) => {
-
         console.log(userPosts)
         fetch("http://localhost:3000/nextIDs/3",
             {

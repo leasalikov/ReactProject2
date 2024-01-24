@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 // import Home from "./Home";
 
 const Info = () => {
-    //     const [user,setUser]=useState()
-    // useEffect(()=>{
-    //     setUser(JSON.parse(localStorage.getItem('user'))) ;
-    // },[]);
-    // console.log(user);
     const user = JSON.parse(localStorage.getItem('user'));
-    //אולי צריך לעשות map
     return (
         <>
             <p> <b>id: </b>{user.id}<br />

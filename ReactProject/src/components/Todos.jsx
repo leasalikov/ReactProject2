@@ -98,13 +98,12 @@ const Todos = () => {
         setUserTodos((prevUserTodos) => prevUserTodos.filter((todo) => todo.id !== item.id));
 
       } catch (error) {
-        console.error('שגיאה במחיקת הפריט', error);
+        console.error('Detele Error', error);
       }
     }
   };
 
   const UpdateTodo = async (data) => {
-    debugger
     try {
       await fetch(`http://localhost:3000/todos/${itemId.current}`, {
         method: 'PATCH',
@@ -127,7 +126,7 @@ const Todos = () => {
           : todo
       ));
     } catch (error) {
-      console.error('שגיאה בהוספת הפריט', error);
+      console.error('Update Error', error);
     }
   }
 
@@ -207,7 +206,6 @@ const Todos = () => {
       </select>
       {/* <br /> */}
       <select defaultValue onChange={(e) => { (e.target.value!=='All')?setShowsearchBox(true):null; searchValue.current = e.target.value }} >
-        {/* onChange={SearchBy} */}
         <option value="All">Search</option>
         <option value="All">All</option>
         <option value="id">Id</option>
