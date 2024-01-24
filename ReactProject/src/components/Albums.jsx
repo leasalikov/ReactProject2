@@ -78,6 +78,10 @@ const Albums = () => {
             const filteredByValue = arr.filter(obj => {
                 return obj[val] == data.valueToSearch;
             });
+            if (filteredByValue.length === 0) {
+                alert("There is no argument with this value")
+                return;
+            }
             setUserAlbums(filteredByValue);
         }
     };

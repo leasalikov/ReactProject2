@@ -15,7 +15,7 @@ const Todos = () => {
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
   const itemId = useRef(0);
-
+  const searchValue=useRef(0)
   useEffect(() => {
     //users todo
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
@@ -103,12 +103,13 @@ const Todos = () => {
     }
   };
 
-  const UpdateTodo = async (title) => {
+  const UpdateTodo = async (data) => {
+    debugger
     try {
       await fetch(`http://localhost:3000/todos/${itemId.current}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          title: title.title,
+          title: data.title,
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -117,12 +118,12 @@ const Todos = () => {
       setAllUserTodos(
         allUserTodos.map((todo) =>
           todo.id === itemId.current
-            ? { ...todo, title: title.title }
+            ? { ...todo, title: data.title }
             : todo
         ));
-        setUserTodos(userTodos.map((todo) =>
+        setUserTodos(UserTodos.map((todo) =>
         todo.id === itemId.current
-          ? { ...todo, title: title.title }
+          ? { ...todo, title: data.title }
           : todo
       ));
     } catch (error) {
@@ -185,7 +186,10 @@ const Todos = () => {
       const filteredByValue = arr.filter(obj => {
         return obj[val] == data.valueToSearch;
       });
-      console.log(filteredByValue);
+      if (filteredByValue.length === 0) {
+        alert("There is no argument with this value")
+        return;
+    }
       setUserTodos(filteredByValue);
     }
   }

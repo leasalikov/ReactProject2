@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useLocation  } from 'react-router-dom';
 
 const Comments = () => {
+    const location=useLocation();
+    const { selectedPost,user} = location.state;
     const { id } = useParams();
+
     const [post, setPost] = useState(null);
     const [comments, setComments] = useState([]);
 

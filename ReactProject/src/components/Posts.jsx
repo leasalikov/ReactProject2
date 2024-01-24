@@ -203,7 +203,7 @@ const Posts = () => {
             .then(json => setPostsComments(json));
     }
 
-    const ShowAddComment=(post)=>{
+    const ShowAddComment = (post) => {
         setShowCommentDetails(true);
         // localStorage.setItem('post', JSON.stringify(data[0]));
         // const post = { userId: post.userId, id: post.id, title: post.title, body: post.body };
@@ -213,15 +213,15 @@ const Posts = () => {
     function AddComment(data) {
 
         // console.log(userPosts)
-        fetch("http://localhost:3000/nextIDs/4", 
-        {
-           method: 'PATCH',
-           body: JSON.stringify({
-               nextId:nextId+1,
-           }),      headers: {
-               'Content-type': 'application/json; charset=UTF-8',
-           },
-           });
+        fetch("http://localhost:3000/nextIDs/4",
+            {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    nextId: nextId + 1,
+                }), headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            });
         console.log("Data:", data);
         // debugger
         if (data.email === user.email) {
@@ -248,7 +248,6 @@ const Posts = () => {
 
     const Search = (data) => {
         setShowPostInfo(false);
-
         setShowsearchBox(false);
 
         let val = searchValue.current;
@@ -268,11 +267,13 @@ const Posts = () => {
             setUserPosts(filteredByValue);
         }
     }
-    // const navigateToComments = () => {
-    //     // debugger
-    //     // הפנייה לדף היעד עם הפרופ PostsComments
-    //     return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
-    // };
+    const navigateToComments = () => {
+        // debugger
+        // הפנייה לדף היעד עם הפרופ PostsComments
+        <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
+        <Outlet /></>
+        // return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
+    };
     return (
         <>
             <h1>Posts</h1>
@@ -298,11 +299,11 @@ const Posts = () => {
                 <button type="submit">OK</button>
             </form>}
             {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
-            <input required placeholder='name' id='' name='name' {...register("name")}></input>
-            <input required placeholder='email' id='' name='email' {...register("email")}></input>
-            <input required placeholder='body' id='' name='body' {...register("body")}></input>
-            <button type="submit">Ok</button>y
-        </form>}
+                <input required placeholder='name' id='' name='name' {...register("name")}></input>
+                <input required placeholder='email' id='' name='email' {...register("email")}></input>
+                <input required placeholder='body' id='' name='body' {...register("body")}></input>
+                <button type="submit">Ok</button>y
+            </form>}
             {showPostInfo && selectedPost && (
                 <div>
                     <p>User Id: {selectedPost.userId}</p>
@@ -312,28 +313,35 @@ const Posts = () => {
                     <button onClick={() => { navigateToComments(selectedPost.id) }}>Comments</button>
 
                     <button onClick={navigateToComments}>Comments</button>
-                    <><Navigate to={"comments"} state={{post: selectedPost, user: user}} />
-                <Outlet /></>
+                    {/* {!displayComments ?
+                        <button onClick={() => SetDisplayComments(true)} >show all comments</button>
+                        :
+                        <><Navigate to={`${post.id}/comments`} state={{ post: post }} />
+                            <Outlet />
+                        </>
+                    } */}
+                    <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
+                        <Outlet /></>
 
 
                     {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
-                    <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
-                    <input required placeholder='Writea new body of the  comment' id='' name='body' {...register("body")}></input>
-                    <button type="submit">Ok</button>
-                </form>}
-                {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
-                    <input required placeholder='name' id='' name='name' {...register("name")}></input>
-                    <input required placeholder='email' id='' name='email' {...register("email")}></input>
-                    <input required placeholder='body' id='' name='body' {...register("body")}></input>
-                    <button type="submit">Ok</button>
-                </form>}
+                        <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
+                        <input required placeholder='Writea new body of the  comment' id='' name='body' {...register("body")}></input>
+                        <button type="submit">Ok</button>
+                    </form>}
+                    {showCommentDetails && <form onSubmit={handleSubmit(AddComment)}>
+                        <input required placeholder='name' id='' name='name' {...register("name")}></input>
+                        <input required placeholder='email' id='' name='email' {...register("email")}></input>
+                        <input required placeholder='body' id='' name='body' {...register("body")}></input>
+                        <button type="submit">Ok</button>
+                    </form>}
                     {showPostsComments && (postsComments.map(comment => (
-                    <li key={comment.id}>
-                        Id: {comment.id}<br />name: {comment.name}<br />Email: {comment.email}
-                        {comment.email == user.email ? <><button onClick={() => { DeleteComment(comment) }}><IoTrashOutline /></button>
-                            <button onClick={() => { commentId.current = comment.id; setShowAAA(!showAAA) }}><LuClipboardEdit /></button></> : null}
-                    </li>
-                )))}
+                        <li key={comment.id}>
+                            Id: {comment.id}<br />name: {comment.name}<br />Email: {comment.email}
+                            {comment.email == user.email ? <><button onClick={() => { DeleteComment(comment) }}><IoTrashOutline /></button>
+                                <button onClick={() => { commentId.current = comment.id; setShowAAA(!showAAA) }}><LuClipboardEdit /></button></> : null}
+                        </li>
+                    )))}
                 </div>
             )}
             <ul>
