@@ -183,15 +183,10 @@ const Posts = () => {
             .then(json => setPostsComments(json));
     }
 
-    // const ShowAddComment = (post) => {
-    //     setShowCommentDetails(true);
-    //     // localStorage.setItem('post', JSON.stringify(data[0]));
-    //     // const post = { userId: post.userId, id: post.id, title: post.title, body: post.body };
-    //     // localStorage.setItem('post', JSON.stringify(post));
-    // }
+
 
     function AddComment(data) {
-        // console.log(userPosts)
+        
         fetch("http://localhost:3000/nextIDs/4",
             {
                 method: 'PATCH',
@@ -202,8 +197,7 @@ const Posts = () => {
                 },
 
         }).then(setNextCommentsId((prev) => prev + 1));
-        // console.log("Data:", data);
-        // debugger
+        
         if (data.email === user.email) {
             const newComment = { postId: postId.current, id: `${nextId}`, name: data.name, email: data.email, body: data.body }
             console.log(postId.current)
@@ -214,7 +208,7 @@ const Posts = () => {
             }).then(response => {
                 if (!response.ok)
                     throw 'Error' + response.status + ': ' + response.statusText;
-                //return response.json();//????
+             
             }).then(() => {
                 setPostsComments(prev => [...prev, newComment])
                 setShowCommentDetails(false);
@@ -264,19 +258,18 @@ const Posts = () => {
         }
 
     }
-    const navigateToComments = (selectedPost) => {
-        // console.log("j.fkbl x");
-        // debugger
-        // הפנייה לדף היעד עם הפרופ PostsComments
-        <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
-            <Outlet /></>
-        // return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
-    };
+    // const navigateToComments = (selectedPost) => {
+    //     // console.log("j.fkbl x");
+    //     // debugger
+    //     <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
+    //         <Outlet /></>
+    //     // return <><Navigate to={'comments'} state={{ post: selectedPost, user: user }} /><Outlet /></>;
+    // };
     return (
         <>
             <h1>Posts</h1>
             <select defaultValue onChange={(e) => { (e.target.value !== 'All') ? setShowsearchBox(true) : null; searchValue.current = e.target.value }} >
-                {/* onChange={SearchBy} */}
+               
                 <option value="All">Search</option>
                 <option value="All">All</option>
                 <option value="id">Id</option>
@@ -309,20 +302,6 @@ const Posts = () => {
                     <p>Title: {selectedPost.title}</p>
                     <p>Body: {selectedPost.body}</p>
                     <button onClick={() => { PostsComments(selectedPost.id) }}>Comments</button>
-
-                    {/* <button onClick={()=>{navigateToComments(selectedPost)}}>Comments</button> */}
-                    {/* <button onClick={navigateToComments}>Comments</button> */}
-                    {/* {!displayComments ?
-                        <button onClick={() => SetDisplayComments(true)} >show all comments</button>
-                        :
-                        <><Navigate to={`${post.id}/comments`} state={{ post: post }} />
-                            <Outlet />
-                        </>
-                    } */}
-                    {/* <><Navigate to={`${selectedPost.id}/comments`} state={{ post: selectedPost, user: user }} />
-                        <Outlet /></> */}
-
-
                     {showAAA && <form onSubmit={handleSubmit(UpdateComment)}>
                         <input required placeholder='Write a new title of the comment' id='' name='name'{...register("name")} ></input>
                         <input required placeholder='Writea new body of the  comment' id='' name='body' {...register("body")}></input>

@@ -10,14 +10,12 @@ const Comments = () => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        // הפונקציה שתבצע טעינת הפוסט והתגובות בהתאם ל-id מה-URL
+
         const fetchPostAndComments = async () => {
-            // קוד לטעינת הפוסט
+        
             const postResponse = await fetch(`http://localhost:3000/posts/${id}`);
             const postData = await postResponse.json();
             setPost(postData);
-
-            // קוד לטעינת התגובות
             const commentsResponse = await fetch(`http://localhost:3000/comments?postId=${id}`);
             const commentsData = await commentsResponse.json();
             setComments(commentsData);

@@ -11,21 +11,17 @@ const Todos = () => {
   const [viewItemUpdate, setViewItemUpdate] = useState(false);
   const [showsearchBox, setShowsearchBox] = useState(false);
   const [allUserTodos, setAllUserTodos] = useState([]);
-  // const [todo, setTodo] = useState({ userId: '', id: '', title: '', completed: false });
   const [nextId, setNextId] = useState();
   const { register, handleSubmit } = useForm();
   const itemId = useRef(0);
   const searchValue=useRef(0)
   useEffect(() => {
-    //users todo
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
       .then(response => response.json())
       .then(json => {
         setAllUserTodos(json.map(j => { return { ...j, display: false } }));
         setUserTodos(json.map(j => { return { ...j, display: false } }));
       });
-
-    //fetch next id
     fetch("http://localhost:3000/nextIDs/2")
       .then(response => {
         if (!response.ok)
@@ -160,7 +156,6 @@ const Todos = () => {
   }
 
   const UpdateTodoStatus = (item) => {
-    // console.log(item.completed);
     item.completed = !item.completed;
     setIsChecked(prev => !prev);
     fetch(`http://localhost:3000/todos/${item.id}`, {
@@ -204,7 +199,6 @@ const Todos = () => {
         <option value="Alphabetical">Alphabetical</option>
         <option value="Random">Random</option>
       </select>
-      {/* <br /> */}
       <select defaultValue onChange={(e) => { (e.target.value!=='All')?setShowsearchBox(true):null; searchValue.current = e.target.value }} >
         <option value="All">Search</option>
         <option value="All">All</option>

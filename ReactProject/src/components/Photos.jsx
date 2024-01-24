@@ -76,7 +76,7 @@ const Photos = () => {
                 method: 'PATCH',
                 body: JSON.stringify({
                     title: data.title,
-                    // body: data.body
+      
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -128,7 +128,7 @@ const Photos = () => {
     };
 
     const AddPhoto = async (data) => {
-        // console.log(userAlbums)
+
         setShowPhotoDetails(false)
         const response = await fetch("http://localhost:3000/nextIDs/6", {
             method: 'PATCH',
@@ -147,7 +147,7 @@ const Photos = () => {
         }).then(response => {
             if (!response.ok)
                 throw 'Error' + response.status + ': ' + response.statusText;
-            //return response.json();//???????????????????????
+        
         }).then(() => {
             setAlbumsPhotos(prev => [...prev, newPhoto])
             setAllAlbumsPhotos(prev => [...prev, newPhoto]);

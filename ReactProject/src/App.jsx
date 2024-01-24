@@ -6,7 +6,6 @@ import './App.css'
 import LogIn from './components/LogIn';
 import Home from './components/Home';
 import Register from './components/Register';
-// import FillDetails from './components/FillDetails';
 import Todos from './components/Todos';
 import Albums from './components/Albums';
 import Posts from './components/Posts';
@@ -33,7 +32,6 @@ function App() {
           <Route path="/" element={<LogIn />} />
           <Route path="login" element={<LogIn />} />
           <Route path="register" element={<Register />} />
-          {/* <Route path="finishRegister" element={<FinishRegister />} /> */}
         </Routes>
       </BrowserRouter>
     </>
