@@ -23,11 +23,9 @@ const Todos = () => {
       .then(json => {
         setAllUserTodos(json.map(j => { return { ...j, display: false } }));
         setUserTodos(json.map(j => { return { ...j, display: false } }));
-
-        //   localStorage.setItem('userTodos', JSON.stringify(json));
       });
 
-    //fech next id
+    //fetch next id
     fetch("http://localhost:3000/nextIDs/2")
       .then(response => {
         if (!response.ok)

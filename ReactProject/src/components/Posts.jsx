@@ -53,7 +53,6 @@ const Posts = () => {
             }).catch(ex => alert(ex));
     }, [])
 
-
     const AddPost=  (data)=> {
 
         console.log(userPosts)
@@ -84,10 +83,6 @@ const Posts = () => {
       
         
         }
- 
-    
-
-
 const DeletePost = async (post) => {
     const userConfirmed = window.confirm('Do you want to delete this post?');
     if (userConfirmed) {
