@@ -13,38 +13,10 @@ const Albums = () => {
     const [showTitleInput, setShowTitleInput] = useState(false);
     const [nextId, setNextId] = useState();
 
-    // useEffect(() => {
-    //     // Fetch user albums
-    //     fetch(`http://localhost:3000/albums?userId=${user.id}`)
-    //         .then(response => response.json())
-    //         .then(json => {
-    //             setUserAlbums(json);
-    //             setAllUserAlbums(json);
-    //         });
+    const { register, handleSubmit } = useForm();
 
-    //     fetch("http://localhost:3000/nextIDs/4")
-    //         .then(response => {
-    //             if (!response.ok)
-    //                 throw 'Error' + response.status + ': ' + response.statusText;
-    //             return response.json();
-    //         })
-    //         .then((json) => {
-    //             setNextId(json.nextId)
-    //         }).catch(ex => alert(ex));
-    // }, []);
     useEffect(() => {
-    
-        // fetch("http://localhost:3000/nextIDs/5");
-        //         if (!responseNextId.ok) {
-        //             throw 'Error' + responseNextId.status + ': ' + responseNextId.statusText;
-        //         }
-        //         const jsonNextId = await responseNextId.json();
-        //         setNextId(jsonNextId.nextId);
-        //     } catch (ex) {
-        //         alert(ex);
-        //     }
-        // };   
-        // fetchData();    
+   
         fetch(`http://localhost:3000/albums?userId=${user.id}`)
             .then(response => response.json())
             .then(json => {
@@ -62,10 +34,6 @@ const Albums = () => {
                 setNextId(json.nextId)
             }).catch(ex => alert(ex));  
     },[]);
-
-
-
-    const { register, handleSubmit } = useForm();
 
     const Search = (data) => {
         setShowsearchBox(false);
@@ -105,11 +73,9 @@ const Albums = () => {
         }).then(response => {
             if (!response.ok)
                 throw 'Error' + response.status + ': ' + response.statusText;
-            //return response.json();//???????????????????????
         }).then(() => {
             setUserAlbums(prev => [...prev, newAlbum])
             setAllUserAlbums(prev => [...prev, newAlbum]);
-            // showTitleInput(false);
             setNextId((prev) => prev + 1);
         }).catch((ex) => alert(ex));
     };
@@ -129,9 +95,7 @@ const Albums = () => {
             </form>
             <ul>
                 {userAlbums.map(item => (
-                    // <a key={item.id} >
                     <div key={item.id}>
-                        {/* {"/onboarding/profile" state={{ from: "occupation" }}} */}
                         <Link to={`${item.id}/Photos`} state={{ album: item }}>
                             Id: {item.id} Title: {item.title}
                         </Link><br />

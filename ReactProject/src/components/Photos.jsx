@@ -24,31 +24,23 @@ const Photos = () => {
     const ShowPhotos = async () => {
         await fetch(`http://localhost:3000/photos/?albumId=${album.id}&&_start=${indexPhotos.start}&&_end=${indexPhotos.end}`)
             .then(response => response.json())
-            // .then(json => console.log(json))
             .then(json => {
                 setAlbumsPhotos(prev => [...prev, ...json]);
-                // console.log(albumsPhotos)
             });
     }
+
     const ShowPhotosFirst = async () => {
 
         await fetch(`http://localhost:3000/photos/?albumId=${album.id}&&_limit=${photosPerPage}`)
             .then(response => response.json())
-            // .then(json => console.log(json))
             .then(json => {
                 setAlbumsPhotos(prev => [...prev, ...json]);
-                // console.log(albumsPhotos)
             });
         setLoadedOnce(true);
     }
 
-    // useEffect(() => {
-    //         handleNextPage();
-    // }, []);
-
     useEffect(() => {
         if (!loadedOnce) {
-            // טעינה ראשונית - הצג 7 תמונות
             ShowPhotosFirst();
             setLoadedOnce(true);
         }
@@ -56,13 +48,6 @@ const Photos = () => {
 
 
     useEffect(() => {
-        // fetch(`http://localhost:3000/photos?albumId=${album.id}`)
-        //     .then(response => response.json())
-        //     .then(json => {
-        //         setAlbumsPhotos(json)
-        //         setAllAlbumsPhotos(json);
-        //     });
-
         fetch("http://localhost:3000/nextIDs/6")
             .then(response => {
                 if (!response.ok)
