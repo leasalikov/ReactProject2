@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 function LogIn() {
-    // debugger;
     const [user, setUser] = useState({ username: '', password: '' });
     const navigate = useNavigate();
 
@@ -15,11 +14,9 @@ function LogIn() {
             if (data.length === 0)
                 alert("User does not exist!");
             else {
-
                 localStorage.setItem('user', JSON.stringify(data[0]));
                 navigate(`/users/${data[0].id}/home`);
             }
-
         } catch (error) {
             console.error('ERROR:', error);
         }
