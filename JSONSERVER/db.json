@@ -808,8 +808,9 @@
     {
       "userId": "4",
       "id": "65",
-      "title": "fugiat pariatur ratione ut asperiores necessitatibus magni",
-      "completed": false
+      "title": "היחצמ",
+      "completed": true,
+      "display": false
     },
     {
       "userId": "4",
@@ -821,7 +822,8 @@
       "userId": "4",
       "id": "67",
       "title": "quia voluptatibus voluptatem quos similique maiores repellat",
-      "completed": false
+      "completed": true,
+      "display": false
     },
     {
       "userId": "4",
